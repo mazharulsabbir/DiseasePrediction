@@ -6,19 +6,50 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import school.of.thought.R;
+import school.of.thought.adapter.DiseaseListAdapter;
+import school.of.thought.model.Disease;
 import school.of.thought.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
     private boolean isDarkTheme;
+    private List<Disease> diseases = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initCurrentTheme();
         setContentView(R.layout.activity_main);
+
+        init();
+    }
+
+    private void init() {
+        initDummyData();
+
+        RecyclerView recyclerView = findViewById(R.id.disease_recycler_view);
+        DiseaseListAdapter diseaseListAdapter = new DiseaseListAdapter(diseases, getApplicationContext());
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        recyclerView.setAdapter(diseaseListAdapter);
+
+    }
+
+    private void initDummyData() {
+        String desc = "Dengue fever is a disease caused by a family of viruses transmitted by Aedes mosquitoes. Symptoms of dengue fever include severe joint and muscle pain, swollen lymph nodes, headache, fever, exhaustion, and rash";
+
+        for (int i = 0; i < 40; i++) {
+            diseases.add(new Disease("", "Dengue", desc));
+        }
     }
 
     private void initCurrentTheme() {

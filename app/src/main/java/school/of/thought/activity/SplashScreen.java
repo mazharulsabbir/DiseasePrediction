@@ -1,4 +1,4 @@
-package school.of.thought;
+package school.of.thought.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +8,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import school.of.thought.activity.MainActivity;
+import school.of.thought.R;
 import school.of.thought.utils.Utils;
 
 public class SplashScreen extends AppCompatActivity {
