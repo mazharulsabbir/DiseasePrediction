@@ -44,7 +44,10 @@ public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.
         holder.name.setText(disease.getName());
         holder.shortDesc.setText(disease.getShortDesc());
 
-        Glide.with(context).load(disease.getImageUrl()).error(R.drawable.ic_launcher_background).into(holder.image);
+        if (disease.getImageUrl().isEmpty())
+            Glide.with(context).load(R.drawable.ic_launcher_background).into(holder.image);
+        else Glide.with(context).load(disease.getImageUrl()).into(holder.image);
+
     }
 
     @Override

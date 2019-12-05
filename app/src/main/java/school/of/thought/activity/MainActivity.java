@@ -3,6 +3,7 @@ package school.of.thought.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isDarkTheme;
     private List<Disease> diseases = new ArrayList<>();
+    private VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         recyclerView.setAdapter(diseaseListAdapter);
+
+//        videoView = findViewById(R.id.video);
+//        String uri = "https://www.youtube.com/watch?v=8Lq3HyBCuAA&feature=youtu.be";
+//
+//        videoView.setVideoURI(Uri.parse(uri));
+//
+//        MediaController mediaController = new MediaController(this);
+//        videoView.setMediaController(mediaController);
+//        mediaController.setAnchorView(videoView);
 
     }
 

@@ -7,7 +7,7 @@
     android:background="?colorPrimary"
     tools:context=".activity.MainActivity">
 
-    <include layout="@layout/toolbar_layout" />
+    <include layout="@layout/collapsing_toolbar_layout" />
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
