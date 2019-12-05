@@ -5,33 +5,39 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import school.of.thought.R;
 import school.of.thought.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int mTheme;
+    private boolean isDarkTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences preferences = getSharedPreferences(Utils.THEME, MODE_PRIVATE);
-        mTheme = preferences.getInt(Utils.CURRENT_THEME, R.style.AppTheme_Light);
-        setTheme(mTheme);
-
+        initCurrentTheme();
         setContentView(R.layout.activity_main);
+    }
+
+    private void initCurrentTheme() {
+        SharedPreferences preferences = getSharedPreferences(Utils.THEME, MODE_PRIVATE);
+        isDarkTheme = preferences.getBoolean(Utils.CURRENT_THEME, false);
+
+        if (isDarkTheme) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
     public void changeTheme(View view) {
         SharedPreferences.Editor editor = getSharedPreferences(Utils.THEME, MODE_PRIVATE).edit();
 
-        if (mTheme == R.style.AppTheme_Dark) {
-            editor.putInt(Utils.CURRENT_THEME, R.style.AppTheme_Light);
+        if (isDarkTheme) {
+            editor.putBoolean(Utils.CURRENT_THEME, false);
             editor.apply();
         } else {
-            editor.putInt(Utils.CURRENT_THEME, R.style.AppTheme_Dark);
+            editor.putBoolean(Utils.CURRENT_THEME, true);
             editor.apply();
         }
 

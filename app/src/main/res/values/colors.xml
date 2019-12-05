@@ -6,9 +6,4 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <!--colors for dark theme-->
-    <color name="colorPrimary2">#333333</color>
-    <color name="colorPrimaryDark2">#0c0c0c</color>
-    <color name="colorAccent2">#5c5c5c</color>
-
 </resources>

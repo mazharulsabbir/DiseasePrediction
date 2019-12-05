@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import school.of.thought.activity.MainActivity;
 import school.of.thought.utils.Utils;
@@ -15,16 +16,21 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences preferences = getSharedPreferences(Utils.THEME, MODE_PRIVATE);
-        int mTheme = preferences.getInt(Utils.CURRENT_THEME, R.style.AppTheme_Light);
-        setTheme(mTheme);
-
+        initCurrentTheme();
         setContentView(R.layout.activity_splash_screen);
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }, 300);
+    }
+
+    private void initCurrentTheme() {
+        SharedPreferences preferences = getSharedPreferences(Utils.THEME, MODE_PRIVATE);
+        boolean isDarkTheme = preferences.getBoolean(Utils.CURRENT_THEME, false);
+
+        if (isDarkTheme) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 }
