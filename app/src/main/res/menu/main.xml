@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
+    <group android:id="@+id/items">
+        <item
+            android:id="@+id/peer_to_peer_donor_receiver_list"
+            android:title="Peer to Peer Donor/Receiver List" />
+
+        <item
+            android:id="@+id/donor_list"
+            android:title="Donor List" />
+
+        <item
+            android:id="@+id/receiver_list"
+            android:title="Receiver List" />
+        <item
+            android:id="@+id/apply_for_help"
+            android:title="Apply For Help" />
+        <item
+            android:id="@+id/donate"
+            android:title="Donate" />
+        <item
+            android:id="@+id/applier_list"
+            android:title="Applier List" />
+        <item
+            android:id="@+id/apply_for_scholarship"
+            android:title="Apply For Scholarship" />
+        <item
+            android:id="@+id/doctor_list"
+            android:title="Doctor List" />
+        <item
+            android:id="@+id/about_us"
+            android:title="About Us" />
+        <item
+            android:id="@+id/login_logout"
+            android:title="Login" />
+        <item
+            android:id="@+id/profile"
+            android:title="Profile" />
+    </group>
+
+    <group android:id="@+id/theme">
+        <item
+            android:id="@+id/app_bar_switch_theme"
+            android:title="Dark Theme"
+            app:actionLayout="@layout/switch_item"
+            app:showAsAction="never" />
+    </group>
+
 </menu>
