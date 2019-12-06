@@ -9,10 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import school.of.thought.R;
 import school.of.thought.adapter.DiseaseListAdapter;
 import school.of.thought.model.Disease;
