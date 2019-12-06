@@ -13,5 +13,6 @@
     <color name="light_blue">#4786ff</color>
     <color name="tv_color_light_blue">#4786ff</color>
     <color name="btn_text_color_white">#FFFFFF</color>
+    <color name="text_view_text_color_white">#FFFFFF</color>
 </resources>
 

@@ -11,8 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentScrim="?colorPrimary"
-        app:expandedTitleGravity="bottom"
+        app:expandedTitleGravity="start|bottom"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
         app:title="@string/app_name">
 
@@ -33,7 +34,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:layout_scrollFlags="enterAlways|snap|scroll" />
+            app:layout_scrollFlags="enterAlways|snap|scroll"
+            app:titleTextColor="?colorOnPrimary" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
