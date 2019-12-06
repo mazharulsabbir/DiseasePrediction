@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -115,6 +116,13 @@ public class MainActivity extends AppCompatActivity {
 
             ProgressBar progressBar = findViewById(R.id.loading_video);
             progressBar.setVisibility(View.GONE);
+
+            ImageButton playVideo = findViewById(R.id.play_video);
+            playVideo.setVisibility(View.VISIBLE);
+            playVideo.setOnClickListener(view -> {
+                videoView.start();
+                playVideo.setVisibility(View.GONE);
+            });
         });
     }
 
