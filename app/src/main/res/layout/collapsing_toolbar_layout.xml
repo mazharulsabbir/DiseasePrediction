@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentScrim="?colorPrimary"
         app:expandedTitleGravity="bottom"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
@@ -18,14 +19,28 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_collapseMode="parallax"
-            app:layout_collapseParallaxMultiplier="0.5">
+            android:layout_height="wrap_content">
 
             <VideoView
                 android:id="@+id/video"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <ProgressBar
+                android:id="@+id/loading_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <ImageButton
+                android:id="@+id/play_video"
+                style="@style/Widget.AppCompat.Light.ActionButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/play"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -33,7 +48,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:layout_scrollFlags="enterAlways|snap|scroll" />
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="enterAlways|snap|scroll"
+            app:titleTextColor="?colorOnPrimary" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 

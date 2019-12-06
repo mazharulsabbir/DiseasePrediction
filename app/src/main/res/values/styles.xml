@@ -6,6 +6,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="ornage_primary">@color/ornage_primary</item>
+        <item name="white">@color/white</item>
+        <item name="transparent_black">@color/transparent_black</item>
+        <item name="dark_blue">@color/dark_blue</item>
+        <item name="them_color">@color/them_color</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="blue_transparent">@color/blue_transparent</item>
+        <item name="light_blue">@color/light_blue</item>
+        <item name="tv_color_light_blue">@color/tv_color_light_blue</item>
+        <item name="btn_text_color_white">@color/btn_text_color_white</item>
+        <item name="text_view_text_color_white">@color/text_view_text_color_white</item>
     </style>
 
     <style name="AppTheme" parent="AppTheme.Light">

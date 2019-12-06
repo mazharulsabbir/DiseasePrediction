@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#034a95</color>
-    <color name="colorPrimaryDark">#73000000</color>
+    <color name="colorPrimaryDark">#002466</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="ornage_primary">#F9690E</color>
     <color name="white">#FFFFFF</color>
@@ -13,5 +13,6 @@
     <color name="light_blue">#4786ff</color>
     <color name="tv_color_light_blue">#4786ff</color>
     <color name="btn_text_color_white">#FFFFFF</color>
+    <color name="text_view_text_color_white">#FFFFFF</color>
 </resources>
 
