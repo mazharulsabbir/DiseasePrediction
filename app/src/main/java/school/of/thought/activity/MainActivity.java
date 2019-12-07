@@ -19,19 +19,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
-=======
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.logging.Logger;
 
->>>>>>> 12cec8c4491033c17a4e565a23f11fd6af5c8adc
+import androidx.recyclerview.widget.RecyclerView;
 import school.of.thought.R;
 import school.of.thought.adapter.DiseaseListAdapter;
 import school.of.thought.model.Disease;
