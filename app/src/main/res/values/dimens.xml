@@ -11,4 +11,7 @@
     <!--Default cardview margins-->
     <dimen name="card_margin_start_end">8dp</dimen>
     <dimen name="card_margin_top_bottom">4dp</dimen>
+    <dimen name="headerTextSize">25sp</dimen>
+    <dimen name="newsMoreTextSize">12sp</dimen>
+    <dimen name="loginViewsMargin">20dp</dimen>
 </resources>
