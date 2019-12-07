@@ -2,7 +2,7 @@ package school.of.thought.fragments.login_registration;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import android.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
