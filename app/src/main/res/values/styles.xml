@@ -52,7 +52,7 @@
     </style>
 
     <style name="viewParent.headerText.NoMode">
-        <item name="android:textColor">@color/darkTextColor</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="parent">
@@ -62,12 +62,12 @@
 
     <style name="modifiedEditText" parent="parent">
         <item name="android:textSize">@dimen/newsMoreTextSize</item>
-        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/primaryTextColor</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/white</item>
     </style>
 
     <style name="loginButton" parent="viewParent">
         <item name="android:background">@drawable/button_background_blue</item>
-        <item name="android:textColor">@color/whiteTextColor</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
     </style>
 
