@@ -1,6 +1,5 @@
 package school.of.thought.activity;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -21,15 +20,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
-import androidx.recyclerview.widget.RecyclerView;
 import school.of.thought.R;
 import school.of.thought.adapter.DiseaseListAdapter;
 import school.of.thought.model.Disease;
@@ -98,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
         initDummyData();
 
         RecyclerView recyclerView = findViewById(R.id.disease_recycler_view);
-        DiseaseListAdapter diseaseListAdapter = new DiseaseListAdapter(diseases,this, getApplicationContext());
+        DiseaseListAdapter diseaseListAdapter = new DiseaseListAdapter(diseases, this, getApplicationContext());
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -113,19 +111,13 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
         MediaController mediaController = new MediaController(this);
         videoView.setMediaController(mediaController);
         mediaController.setAnchorView(videoView);
+        videoView.start();
 
         videoView.setOnPreparedListener(mediaPlayer -> {
             Logger.getLogger("Video Prepared").warning("Prepared");
 
             ProgressBar progressBar = findViewById(R.id.loading_video);
             progressBar.setVisibility(View.GONE);
-
-            ImageButton playVideo = findViewById(R.id.play_video);
-            playVideo.setVisibility(View.VISIBLE);
-            playVideo.setOnClickListener(view -> {
-                videoView.start();
-                playVideo.setVisibility(View.GONE);
-            });
         });
     }
 
