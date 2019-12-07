@@ -1,16 +1,11 @@
 package school.of.thought.fragments.login_registration;
-
-import android.os.Build;
 import android.os.Bundle;
-
 import android.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import school.of.thought.R;
 import school.of.thought.activity.LoginRegistrationHolder;
 
