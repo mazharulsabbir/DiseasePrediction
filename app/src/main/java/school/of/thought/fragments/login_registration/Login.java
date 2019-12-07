@@ -1,9 +1,7 @@
 package school.of.thought.fragments.login_registration;
 
-import android.os.Bundle;
-
 import android.app.Fragment;
-
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +22,11 @@ public class Login extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    ImageView add_button;
+    TextView registration;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    ImageView add_button;
-
-    TextView registration;
 
     public Login() {
         // Required empty public constructor
@@ -75,9 +70,10 @@ public class Login extends Fragment {
         registration.setOnClickListener(view12 -> Registration());
         return view;
     }
-    public void Registration(){
+
+    public void Registration() {
         Fragment registration = new Registration();
-        ((LoginRegistrationHolder)getActivity()).addFirstFragment(registration);
-        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
+        ((LoginRegistrationHolder) getActivity()).addFirstFragment(registration);
+        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.stay);
     }
 }
