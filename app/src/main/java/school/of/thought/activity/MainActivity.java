@@ -1,5 +1,7 @@
 package school.of.thought.activity;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,7 +35,7 @@ import school.of.thought.adapter.DiseaseListAdapter;
 import school.of.thought.model.Disease;
 import school.of.thought.utils.Utils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DiseaseListAdapter.onDiseasesListener {
 
     private boolean isDarkTheme;
     private List<Disease> diseases = new ArrayList<>();
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         initDummyData();
 
         RecyclerView recyclerView = findViewById(R.id.disease_recycler_view);
-        DiseaseListAdapter diseaseListAdapter = new DiseaseListAdapter(diseases, getApplicationContext());
+        DiseaseListAdapter diseaseListAdapter = new DiseaseListAdapter(diseases,this, getApplicationContext());
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -156,5 +158,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         recreate();
+    }
+
+    @Override
+    public void onDiseasesClick(int position) {
+        Intent intent = new Intent(this, LoginRegistrationHolder.class);
+        startActivity(intent);
     }
 }
