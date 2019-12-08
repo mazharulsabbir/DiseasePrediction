@@ -146,15 +146,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/login"
-                    style="@style/parent"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/themeColor"
-                    android:textSize="17sp"
-                    android:text="Have an another account?"
-                    android:layout_marginTop="@dimen/loginViewsMargin" />
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputChamberName"
                     style="@style/parent"
@@ -197,6 +188,16 @@
                         android:maxLines="1"
                         android:hint="RoomNumber"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/login"
+                    style="@style/parent"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/themeColor"
+                    android:textSize="17sp"
+                    android:text="Have an another chamber?"
+                    android:layout_marginTop="@dimen/loginViewsMargin" />
 
                 <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                     android:id="@+id/cirRegisterButton"
