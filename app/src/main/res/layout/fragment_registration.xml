@@ -11,10 +11,10 @@
     tools:context=".fragments.login_registration.Registration">
 
     <ScrollView
-        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,6 +129,8 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
