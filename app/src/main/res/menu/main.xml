@@ -14,9 +14,10 @@
         <item
             android:id="@+id/receiver_list"
             android:title="Receiver List" />
+
         <item
-            android:id="@+id/apply_for_help"
-            android:title="Apply For Help" />
+            android:id="@+id/doctor_list"
+            android:title="Doctor List" />
 
     </group>
 
@@ -33,12 +34,9 @@
         <item
             android:id="@+id/apply_for_scholarship"
             android:title="Apply For Scholarship" />
-    </group>
-
-    <group android:id="@+id/doctors">
         <item
-            android:id="@+id/doctor_list"
-            android:title="Doctor List" />
+            android:id="@+id/apply_for_help"
+            android:title="Apply For Help" />
     </group>
 
     <group android:id="@+id/info">
