@@ -18,6 +18,9 @@
         <item
             android:id="@+id/doctor_list"
             android:title="Doctor List" />
+        <item
+            android:id="@+id/applier_list"
+            android:title="Applier List" />
 
     </group>
 
@@ -28,15 +31,16 @@
     </group>
 
     <group android:id="@+id/scholarship">
-        <item
-            android:id="@+id/applier_list"
-            android:title="Applier List" />
+
         <item
             android:id="@+id/apply_for_scholarship"
             android:title="Apply For Scholarship" />
         <item
             android:id="@+id/apply_for_help"
             android:title="Apply For Help" />
+        <item
+            android:id="@+id/doctor_registration"
+            android:title="Doctor Registration" />
     </group>
 
     <group android:id="@+id/info">

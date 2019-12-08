@@ -1,5 +1,7 @@
 package school.of.thought.fragments.navigation_holder;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import school.of.thought.R;
 
@@ -16,6 +20,8 @@ import school.of.thought.R;
  * create an instance of this fragment.
  */
 public class DoctorRegistration extends Fragment {
+
+    TextView anotherChamber;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +67,40 @@ public class DoctorRegistration extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doctor_registration, container, false);
+        View view =inflater.inflate(R.layout.fragment_doctor_registration, container, false);
+        anotherChamber = view.findViewById(R.id.another_chamber);
+
+        anotherChamber.setOnClickListener(view1 -> {
+            LayoutInflater li = LayoutInflater.from(getActivity());
+            View promptsView = li.inflate(R.layout.add_chamber, null);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    getActivity());
+            // set prompts.xml to alertdialog builder
+            alertDialogBuilder.setView(promptsView);
+
+            final EditText editTextChamberName = (EditText) promptsView
+                    .findViewById(R.id.editTextChamberName);
+
+            // set dialog message
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("OK",
+                            (dialog, id) -> {
+                                // get user input and set it to result
+                                // edit text
+                               // result.setText(editTextChamberName.getText());
+                            })
+                    .setNegativeButton("Cancel",
+                            (dialog, id) -> dialog.cancel());
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+
+        });
+        return view;
     }
 }

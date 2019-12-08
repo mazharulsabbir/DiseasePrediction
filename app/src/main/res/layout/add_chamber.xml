@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputChamberName"
+        style="@style/parent"
+        android:layout_marginTop="@dimen/loginViewsMargin">
+        <EditText
+            android:id="@+id/editTextChamberName"
+            style="@style/modifiedEditText"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:hint="Chamber Name"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputDistrict"
+        style="@style/parent"
+        android:layout_marginTop="@dimen/loginViewsMargin">
+        <EditText
+            android:id="@+id/editTextDistrict"
+            style="@style/modifiedEditText"
+            android:maxLines="1"
+            android:hint="Designation"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputSpecificPlaceName"
+        style="@style/parent"
+        android:layout_marginTop="@dimen/loginViewsMargin">
+        <EditText
+            android:id="@+id/editTexttSpecificPlaceName"
+            style="@style/modifiedEditText"
+            android:hint="Specific Place Name"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputRoomNumber"
+        style="@style/parent"
+        android:layout_marginTop="@dimen/loginViewsMargin">
+        <EditText
+            android:id="@+id/editTextRoomNumber"
+            style="@style/modifiedEditText"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:hint="RoomNumber"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
