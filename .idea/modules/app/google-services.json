@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "834823164006-ja2qo2q6ppugo0l7qus9luvm53l8lbvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "school.of.thought",
+            "certificate_hash": "26283f665a4d5b6c65f19cde965f2ca5a3f4c04a"
+          }
+        },
+        {
+          "client_id": "834823164006-pm7q6o4jhso1ctic5m9of3v3ntqf5l4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "school.of.thought",
+            "certificate_hash": "d3fee49e361a01b9357b80bd00f6a0f10774598d"
+          }
+        },
+        {
           "client_id": "834823164006-5nobblle9l62oaunu36m46plmpnhvpp9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
