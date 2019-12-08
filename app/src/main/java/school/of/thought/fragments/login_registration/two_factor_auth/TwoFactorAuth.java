@@ -233,13 +233,6 @@ public class TwoFactorAuth extends Fragment {
 
                         linkWithEmailAndPassword(linkAuthCredential);
 
-                        Log.d(TAG, "signInWithCredential:success");
-                        FirebaseUser user = task.getResult().getUser();
-
-                        if (user != null) {
-                            //todo: open activity
-                        }
-
                     } else {
                         // Sign in failed, display a message and update the UI
                         if (toast != null)
@@ -269,6 +262,8 @@ public class TwoFactorAuth extends Fragment {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "linkWithCredential:success");
                     FirebaseUser user = task.getResult().getUser();
+
+                    //todo: open activity
                     Toast.makeText(getContext(), "Authentication Success.",
                             Toast.LENGTH_SHORT).show();
                 } else {
