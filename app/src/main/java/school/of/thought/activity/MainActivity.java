@@ -36,6 +36,8 @@ import school.of.thought.utils.Utils;
 
 public class MainActivity extends AppCompatActivity implements DiseaseListAdapter.onDiseasesListener {
 
+    private static final String TAG = "MainActivity";
+
     private boolean isDarkTheme;
     private List<Disease> diseases = new ArrayList<>();
     private VideoView videoView;
