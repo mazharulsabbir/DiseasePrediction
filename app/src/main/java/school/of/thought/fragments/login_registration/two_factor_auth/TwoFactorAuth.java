@@ -215,7 +215,6 @@ public class TwoFactorAuth extends Fragment {
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         String code = credential.getSmsCode();
-                        Toast.makeText(getContext(), "" + code, Toast.LENGTH_SHORT).show();
                         Logger.getLogger("Code").warning(String.valueOf(code));
 
                         if (code != null) {
