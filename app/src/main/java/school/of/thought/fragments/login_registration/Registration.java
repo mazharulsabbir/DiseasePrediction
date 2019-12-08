@@ -1,6 +1,7 @@
 package school.of.thought.fragments.login_registration;
 
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import school.of.thought.R;
 import school.of.thought.activity.LoginRegistrationHolder;
 import school.of.thought.fragments.login_registration.two_factor_auth.TwoFactorAuth;
+import school.of.thought.model.UserRegistration;
 
 public class Registration extends Fragment {
 
@@ -64,8 +66,8 @@ public class Registration extends Fragment {
         phone = String.valueOf(mPhone.getEditText().getText());
         password = String.valueOf(mPassword.getEditText().getText());
 
-        if (validateName(name) && validateEmail(email) && validatePhone(phone) && validatePassword(password)) {
-            androidx.fragment.app.Fragment twoFactorAuth = TwoFactorAuth.newInstance(phoneNo);
+        if (validateInfo(name, email, phone, password)) {
+            androidx.fragment.app.Fragment twoFactorAuth = TwoFactorAuth.newInstance(new UserRegistration(name, email, phoneNo, password));
             ((LoginRegistrationHolder) getActivity()).addFirstFragment(twoFactorAuth);
             getActivity().overridePendingTransition(R.anim.slide_in_left, android.R.anim.slide_out_right);
         } else {
@@ -73,62 +75,59 @@ public class Registration extends Fragment {
         }
     }
 
-    private boolean validatePassword(@NonNull String password) {
-        if (password.isEmpty()) {
-            mPassword.setError("Name Can't be empty");
-            return false;
-        } else {
-            mPassword.setErrorEnabled(false);
-            return true;
-        }
-    }
 
-    private boolean validatePhone(@NonNull String phone) {
-        if (phone.isEmpty()) {
-            mPhone.setError("Name Can't be empty");
-            return false;
-        } else {
-            mPhone.setErrorEnabled(false);
+    private boolean validateInfo(String name, String email, String phone, String password) {
+        boolean valid = true;
 
-            if (phone.length() > 11) {
-                if (phone.contains("+88") && phoneNo.length() == 14) {
-                    return true;
-                }
-            } else {
-                if (phone.contains("+88")) {
-                    mPhone.setError("Invalid Phone Number");
-                    return false;
-                } else {
-                    if (phone.length() == 11) {
-                        phoneNo = "+88" + phone;
-                        return true;
-                    }
-                }
-            }
-            mPhone.setError("Invalid Phone Number");
-            return false;
-        }
-    }
-
-    private boolean validateEmail(@NonNull String email) {
-        if (email.isEmpty()) {
-//            mEmail.setError("Name Can't be empty");
-            return true;
-        } else {
-            mEmail.setErrorEnabled(false);
-            return true;
-        }
-    }
-
-    private boolean validateName(@NonNull String name) {
-        if (name.isEmpty()) {
+        //validate name
+        if (name.trim().isEmpty()) {
             mName.setError("Name Can't be empty");
-            return false;
+            valid = false;
         } else {
             mName.setErrorEnabled(false);
-            return true;
         }
+
+        //validate email
+        if (email.trim().isEmpty()) {
+            mEmail.setError("Email Can't be empty");
+            valid = false;
+        } else {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches())
+                mEmail.setError("Invalid Email");
+            else
+                mEmail.setErrorEnabled(false);
+        }
+
+        //validate password
+        if (password.trim().isEmpty()) {
+            mPassword.setError("Password Can't be empty");
+            valid = false;
+        } else {
+            if (password.trim().length() < 6) {
+                mPassword.setError("Password should be at least 6");
+                valid = false;
+            } else
+                mPassword.setErrorEnabled(false);
+        }
+
+        //validate phone number
+        phoneNo = phone;
+
+        if (phoneNo.trim().isEmpty()) {
+            mPhone.setError("Phone Number Can't be empty");
+            valid = false;
+
+        } else if (phoneNo.trim().length() == 11) {
+            phoneNo = "+88" + phone.trim();
+            mPhone.setErrorEnabled(false);
+        } else {
+            valid = false;
+            mPhone.setError("Invalid Phone Number");
+        }
+
+        return valid;
     }
+
 
     public void Login() {
         ((LoginRegistrationHolder) getActivity()).addFirstFragment(new Login());

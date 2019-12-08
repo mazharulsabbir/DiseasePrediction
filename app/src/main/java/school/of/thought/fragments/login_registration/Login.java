@@ -1,13 +1,20 @@
 package school.of.thought.fragments.login_registration;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import school.of.thought.R;
 import school.of.thought.activity.LoginRegistrationHolder;
@@ -64,6 +71,44 @@ public class Login extends Fragment {
         registration = view.findViewById(R.id.registration);
         add_button.setOnClickListener(view1 -> Registration());
         registration.setOnClickListener(view12 -> Registration());
+
+        view.findViewById(R.id.cirLoginButton).setOnClickListener(login -> {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            TextInputLayout mEmail, mPassword;
+            mEmail = view.findViewById(R.id.textInputEmail);
+            mPassword = view.findViewById(R.id.textInputPassword);
+
+            String email = mEmail.getEditText().getText().toString().trim();
+            String pass = mPassword.getEditText().getText().toString().trim();
+
+            boolean valid = true;
+
+            if (TextUtils.isEmpty(email)) {
+                mEmail.setError("Email can't be empty");
+                valid = false;
+            } else mEmail.setErrorEnabled(false);
+
+            if (valid)
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    mEmail.setError("Invalid email address");
+                    valid = false;
+                } else mEmail.setErrorEnabled(false);
+
+            if (pass.length() < 6) {
+                mPassword.setError("Password should be at least 6");
+                valid = false;
+            } else mPassword.setErrorEnabled(false);
+
+            if (valid)
+                mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = task.getResult().getUser();
+                        Toast.makeText(getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Login failed : " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        });
         return view;
     }
 

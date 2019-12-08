@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import school.of.thought.R;
+import school.of.thought.model.UserRegistration;
 
 public class TwoFactorAuth extends Fragment {
 
@@ -33,7 +36,8 @@ public class TwoFactorAuth extends Fragment {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private String mVerificationId;
-    private String mPhoneNo;
+
+    private UserRegistration userRegistration;
 
     private String verificationCode = "";
 
@@ -43,10 +47,10 @@ public class TwoFactorAuth extends Fragment {
 
     private Toast toast;
 
-    public static TwoFactorAuth newInstance(String phoneNo) {
+    public static TwoFactorAuth newInstance(UserRegistration userRegistration) {
         TwoFactorAuth fragment = new TwoFactorAuth();
         Bundle args = new Bundle();
-        args.putString(TwoFactorAuth.PHONE_NO, phoneNo);
+        args.putParcelable(TwoFactorAuth.PHONE_NO, userRegistration);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,7 +59,7 @@ public class TwoFactorAuth extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mPhoneNo = getArguments().getString(PHONE_NO);
+            userRegistration = getArguments().getParcelable(PHONE_NO);
         }
     }
 
@@ -82,16 +86,12 @@ public class TwoFactorAuth extends Fragment {
         et5.addTextChangedListener(new GenericTextWatcher(et5));
         et6.addTextChangedListener(new GenericTextWatcher(et6));
 
-        startPhoneNumberVerification(mPhoneNo);
+        //phone number verification started
+        startPhoneNumberVerification(userRegistration.getPhone());
 
         view.findViewById(R.id.respay_logo).setOnClickListener(verify -> {
-            if (verificationCode.isEmpty())
-                return;
-
-            if (verificationCode.length() < 6)
-                return;
-
-            verifyOTP();
+            if (verificationCode != null)
+                verifyOTP();
         });
 
         return view;
@@ -164,7 +164,7 @@ public class TwoFactorAuth extends Fragment {
                     @Override
                     public void onVerificationCompleted(PhoneAuthCredential credential) {
                         Log.d(TAG, "onVerificationCompleted:" + credential);
-                        signInWithPhoneAuthCredential(credential);
+//                        signInWithPhoneAuthCredential(credential);
 
                         String code = credential.getSmsCode();
                         Logger.getLogger("Code").warning(String.valueOf(code));
@@ -214,14 +214,8 @@ public class TwoFactorAuth extends Fragment {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-
-                        if (toast != null)
-                            toast.cancel();
-                        toast = Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT);
-                        toast.show();
-
                         String code = credential.getSmsCode();
+                        Toast.makeText(getContext(), "" + code, Toast.LENGTH_SHORT).show();
                         Logger.getLogger("Code").warning(String.valueOf(code));
 
                         if (code != null) {
@@ -233,11 +227,18 @@ public class TwoFactorAuth extends Fragment {
                             et6.setText(String.valueOf(code.charAt(5)));
                         }
 
+                        AuthCredential linkAuthCredential =
+                                EmailAuthProvider.getCredential(userRegistration.getEmail(),
+                                        userRegistration.getPassword()
+                                );
+
+                        linkWithEmailAndPassword(linkAuthCredential);
+
                         Log.d(TAG, "signInWithCredential:success");
                         FirebaseUser user = task.getResult().getUser();
 
                         if (user != null) {
-                            //open activity
+                            //todo: open activity
                         }
 
                     } else {
@@ -261,6 +262,23 @@ public class TwoFactorAuth extends Fragment {
     private void verifyNumber(String mVerificationId, String iCode) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, iCode);
         signInWithPhoneAuthCredential(credential);
+    }
+
+    private void linkWithEmailAndPassword(AuthCredential credential) {
+        if (mAuth.getCurrentUser() != null) {
+            mAuth.getCurrentUser().linkWithCredential(credential).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "linkWithCredential:success");
+                    FirebaseUser user = task.getResult().getUser();
+                    Toast.makeText(getContext(), "Authentication Success.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.w(TAG, "linkWithCredential:failure", task.getException());
+                    Toast.makeText(getContext(), "Authentication failed." + task.getException().getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public class GenericTextWatcher implements TextWatcher {
