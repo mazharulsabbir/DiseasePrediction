@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
     private List<Disease> diseases = new ArrayList<>();
     private VideoView videoView;
     private Switch checkTheme;
+
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,15 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
                     else checkTheme.setChecked(true);
 
                     changeTheme();
+                    return true;
+
+                case R.id.login_logout:
+                    if (user != null) {
+                        FirebaseAuth.getInstance().signOut();
+                        recreate();
+                    } else {
+                        startActivity(new Intent(getApplicationContext(), LoginRegistrationHolder.class));
+                    }
                     return true;
             }
 
@@ -153,7 +166,11 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
 
     @Override
     public void onDiseasesClick(int position) {
-        Intent intent = new Intent(this, LoginRegistrationHolder.class);
-        startActivity(intent);
+        if (user != null) {
+
+        } else {
+            Intent intent = new Intent(this, LoginRegistrationHolder.class);
+            startActivity(intent);
+        }
     }
 }

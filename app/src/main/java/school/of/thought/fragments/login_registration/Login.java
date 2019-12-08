@@ -1,6 +1,5 @@
 package school.of.thought.fragments.login_registration;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import school.of.thought.R;
 import school.of.thought.activity.LoginRegistrationHolder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Login#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Login extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -72,8 +68,7 @@ public class Login extends Fragment {
     }
 
     public void Registration() {
-        Fragment registration = new Registration();
-        ((LoginRegistrationHolder) getActivity()).addFirstFragment(registration);
+        ((LoginRegistrationHolder) getActivity()).addFirstFragment(new Registration());
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.stay);
     }
 }
