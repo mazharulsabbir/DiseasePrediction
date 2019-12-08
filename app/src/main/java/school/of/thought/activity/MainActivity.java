@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
                         startActivity(new Intent(getApplicationContext(), LoginRegistrationHolder.class));
                     }
                     return true;
+
             }
 
             drawer.closeDrawer(GravityCompat.START);
