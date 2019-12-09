@@ -18,7 +18,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/disease_image"
+            android:id="@+id/doctor_image"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:src="@drawable/ic_launcher_background"
@@ -28,7 +28,7 @@
 
         <TextView
             android:textColor="?text_view_text_color_white"
-            android:id="@+id/disease_name"
+            android:id="@+id/doctor_name"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -37,8 +37,8 @@
             android:layout_marginEnd="16dp"
             android:text="Disease Name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/disease_image"
-            app:layout_constraintTop_toTopOf="@+id/disease_image" />
+            app:layout_constraintStart_toEndOf="@id/doctor_image"
+            app:layout_constraintTop_toTopOf="@+id/doctor_image" />
 
         <TextView
             android:textColor="?colorAccent"
@@ -51,8 +51,8 @@
             android:maxLines="5"
             android:text="Disease Desc"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/disease_name"
-            app:layout_constraintTop_toBottomOf="@+id/disease_name" />
+            app:layout_constraintStart_toStartOf="@id/doctor_name"
+            app:layout_constraintTop_toBottomOf="@+id/doctor_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

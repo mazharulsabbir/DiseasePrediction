@@ -42,23 +42,23 @@
             app:layout_collapseMode="pin"
             app:titleTextColor="?colorOnPrimary" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:layout_gravity="bottom"
-            app:titleTextColor="?colorOnPrimary">
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?actionBarSize"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            app:titleTextColor="?colorOnPrimary">-->
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/shape_rectangle"
-                android:drawableStart="@drawable/ic_search_black_24dp"
-                android:drawablePadding="16dp"
-                android:ellipsize="end"
-                android:hint="What disease are you looking for?"
-                android:maxLines="1" />
-        </androidx.appcompat.widget.Toolbar>
+<!--            <EditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                android:background="@drawable/shape_rectangle"-->
+<!--                android:drawableStart="@drawable/ic_search_black_24dp"-->
+<!--                android:drawablePadding="16dp"-->
+<!--                android:ellipsize="end"-->
+<!--                android:hint="What disease are you looking for?"-->
+<!--                android:maxLines="1" />-->
+<!--        </androidx.appcompat.widget.Toolbar>-->
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 

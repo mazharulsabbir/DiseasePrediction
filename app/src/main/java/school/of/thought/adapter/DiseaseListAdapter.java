@@ -74,8 +74,8 @@ public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.
         public DiseaseHolder(@NonNull View itemView ,onDiseasesListener onDiseasesListener) {
             super(itemView);
 
-            image = itemView.findViewById(R.id.disease_image);
-            name = itemView.findViewById(R.id.disease_name);
+            image = itemView.findViewById(R.id.doctor_image);
+            name = itemView.findViewById(R.id.doctor_name);
             shortDesc = itemView.findViewById(R.id.disease_desc);
             this.onDiseasesListener=onDiseasesListener;
             itemView.setOnClickListener(this);

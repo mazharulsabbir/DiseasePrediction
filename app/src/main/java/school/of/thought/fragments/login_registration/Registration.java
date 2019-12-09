@@ -128,9 +128,7 @@ public class Registration extends Fragment {
         return valid;
     }
 
-
     public void Login() {
-        ((LoginRegistrationHolder) getActivity()).addFirstFragment(new Login());
-        getActivity().overridePendingTransition(R.anim.slide_in_left, android.R.anim.slide_out_right);
+        getFragmentManager().popBackStack();
     }
 }

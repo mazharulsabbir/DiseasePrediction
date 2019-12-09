@@ -95,6 +95,13 @@ public class DoctorRegistration extends AppCompatActivity {
                                 // get user input and set it to result
                                 // edit text
                                 // result.setText(editTextChamberName.getText());
+                                DoctorChamberListModel doctorChamberListModel = new DoctorChamberListModel(
+                                        String.valueOf(p_chamber_name.getText()),
+                                        String.valueOf(p_district.getText()),
+                                        String.valueOf(p_specific_place.getText()),
+                                        String.valueOf(p_room_number.getText())
+                                );
+                                chamber_list.add(doctorChamberListModel);
                             })
                     .setNegativeButton("Cancel",
                             (dialog, id) -> dialog.cancel());
