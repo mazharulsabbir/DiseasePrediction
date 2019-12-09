@@ -42,7 +42,9 @@ public class Registration extends Fragment {
 
         already_have_account.setOnClickListener(view1 -> Login());
         back_to_login.setOnClickListener(view1 -> Login());
-        register_button.setOnClickListener(view1 -> twoFactorAuth());
+        register_button.setOnClickListener(view1 -> {
+            twoFactorAuth();
+        });
 
         return view;
     }
@@ -70,8 +72,6 @@ public class Registration extends Fragment {
             androidx.fragment.app.Fragment twoFactorAuth = TwoFactorAuth.newInstance(new UserRegistration(name, email, phoneNo, password));
             ((LoginRegistrationHolder) getActivity()).addFirstFragment(twoFactorAuth);
             getActivity().overridePendingTransition(R.anim.slide_in_left, android.R.anim.slide_out_right);
-        } else {
-
         }
     }
 

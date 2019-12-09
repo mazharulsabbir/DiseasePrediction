@@ -1,5 +1,6 @@
 package school.of.thought.fragments.login_registration.two_factor_auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,12 +22,18 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import school.of.thought.R;
+import school.of.thought.activity.MainActivity;
 import school.of.thought.model.UserRegistration;
+import school.of.thought.utils.Utils;
 
 public class TwoFactorAuth extends Fragment {
 
@@ -90,7 +98,7 @@ public class TwoFactorAuth extends Fragment {
         startPhoneNumberVerification(userRegistration.getPhone());
 
         view.findViewById(R.id.respay_logo).setOnClickListener(verify -> {
-            if (verificationCode != null)
+            if (verificationCode.trim().length() == 6)
                 verifyOTP();
         });
 
@@ -102,7 +110,7 @@ public class TwoFactorAuth extends Fragment {
     }
 
     public void verifyOTP() {
-        verifyNumber(mVerificationId, verificationCode);
+        verifyNumber(mVerificationId, verificationCode.trim());
     }
 
     private void startPhoneNumberVerification(String phoneNumber) {
@@ -247,6 +255,13 @@ public class TwoFactorAuth extends Fragment {
                             toast = Toast.makeText(getActivity(), "Wrong Code", Toast.LENGTH_SHORT);
                             toast.show();
                         }
+
+                        if (task.getException() instanceof FirebaseTooManyRequestsException) {
+                            if (toast != null)
+                                toast.cancel();
+                            toast = Toast.makeText(getActivity(), "Registration Failed! Too many requests", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 });
     }
@@ -262,13 +277,24 @@ public class TwoFactorAuth extends Fragment {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "linkWithCredential:success");
                     FirebaseUser user = task.getResult().getUser();
+                    if (user != null) {
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-                    //todo: open activity
-                    Toast.makeText(getContext(), "Authentication Success.",
-                            Toast.LENGTH_SHORT).show();
+                        Map<String, Object> createNewUser = new HashMap<>();
+                        createNewUser.put("name", userRegistration.getName());
+                        createNewUser.put("email", userRegistration.getEmail());
+                        createNewUser.put("phone", userRegistration.getPhone());
+
+                        reference.child(Utils.getUserInfoReference(user))
+                                .updateChildren(createNewUser)
+                                .addOnCompleteListener(complete -> {
+                                    startActivity(new Intent(getActivity(), MainActivity.class));
+                                });
+
+                    }
                 } else {
                     Log.w(TAG, "linkWithCredential:failure", task.getException());
-                    Toast.makeText(getContext(), "Authentication failed." + task.getException().getMessage(),
+                    Toast.makeText(getContext(), "Registration failed.\n" + task.getException().getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
             });

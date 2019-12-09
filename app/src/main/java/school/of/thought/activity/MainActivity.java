@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -54,6 +55,15 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
         initNavigationDrawer();
 
         init();
+
+        findViewById(R.id.donate).setOnClickListener(view -> {
+            if (user != null) {
+                //todo: open donation activity for donate us
+            } else {
+                Intent intent = new Intent(this, LoginRegistrationHolder.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initNavigationDrawer() {
@@ -173,10 +183,15 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
     @Override
     public void onDiseasesClick(int position) {
         if (user != null) {
-
+            //todo: open ques activity for getting information about disease
         } else {
             Intent intent = new Intent(this, LoginRegistrationHolder.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

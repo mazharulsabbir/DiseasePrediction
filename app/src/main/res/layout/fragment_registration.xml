@@ -50,6 +50,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/textInputName"
+                        app:errorTextColor="?white"
                         style="@style/parent"
                         android:layout_marginTop="@dimen/loginViewsMargin">
 
@@ -63,6 +64,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/textInputEmail"
+                        app:errorTextColor="?white"
                         style="@style/parent"
                         android:layout_marginTop="@dimen/loginViewsMargin">
 
@@ -76,6 +78,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/textInputMobile"
+                        app:errorTextColor="?white"
                         style="@style/parent"
                         android:layout_marginTop="@dimen/loginViewsMargin">
 
@@ -91,6 +94,7 @@
                         android:id="@+id/textInputPassword"
                         style="@style/parent"
                         android:layout_marginTop="@dimen/loginViewsMargin"
+                        app:errorTextColor="?white"
                         app:passwordToggleEnabled="true">
 
                         <com.google.android.material.textfield.TextInputEditText
