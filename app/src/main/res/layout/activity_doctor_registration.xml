@@ -166,7 +166,7 @@
                         android:id="@+id/editTextDistrict"
                         style="@style/modifiedEditText"
                         android:maxLines="1"
-                        android:hint="District"/>
+                        android:hint="Designation"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputSpecificPlaceName"
