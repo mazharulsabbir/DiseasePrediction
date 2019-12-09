@@ -17,6 +17,7 @@ import school.of.thought.R;
 public class DoctorListFragment extends Fragment {
 
 
+    private View rootView;
     public DoctorListFragment() {
         // Required empty public constructor
     }
@@ -26,7 +27,10 @@ public class DoctorListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doctor_list, container, false);
+        rootView= inflater.inflate(R.layout.fragment_doctor_list, container, false);
+
+
+        return rootView;
     }
 
 }
