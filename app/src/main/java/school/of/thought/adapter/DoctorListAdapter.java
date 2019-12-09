@@ -1,5 +1,6 @@
 package school.of.thought.adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import school.of.thought.R;
@@ -18,9 +21,11 @@ import school.of.thought.model.DoctorRegistrationModel;
 public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.DoctorHolder> {
 
     private List<DoctorRegistrationModel> doctorDetails;
+    private Context context;
 
-    public DoctorListAdapter(List<DoctorRegistrationModel> doctorDetails) {
+    public DoctorListAdapter(List<DoctorRegistrationModel> doctorDetails, Context context) {
         this.doctorDetails = doctorDetails;
+        this.context = context;
     }
 
     @NonNull
@@ -37,17 +42,19 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
         holder.designation.setText(helper.getDrsignation());
         holder.area.setText(helper.getSpecial_area());
 
+        Glide.with(context).load(R.drawable.ic_launcher_background).circleCrop().into(holder.image);
         StringBuilder chambers = new StringBuilder();
         if (!helper.chamber_list.isEmpty())
             for (int i = 0; i < helper.chamber_list.size(); i++) {
                 chambers.append(helper.chamber_list.get(i).chamber_name).append("\n");
             }
         holder.chamber.setText(chambers.toString());
+
     }
 
     @Override
     public int getItemCount() {
-        Log.d("DoctorListAdapter", "getItemCount: "+doctorDetails.size());
+        Log.d("DoctorListAdapter", "getItemCount: " + doctorDetails.size());
         return doctorDetails.size();
     }
 

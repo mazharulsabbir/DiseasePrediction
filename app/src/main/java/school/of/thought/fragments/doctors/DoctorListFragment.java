@@ -68,7 +68,7 @@ public class DoctorListFragment extends Fragment {
                     if (doctorHelper != null) {
                         doctorDetails.add(doctorHelper);
 
-                        DoctorListAdapter adapter = new DoctorListAdapter(doctorDetails);
+                        DoctorListAdapter adapter = new DoctorListAdapter(doctorDetails, getContext());
                         recyclerView.setAdapter(adapter);
                     }
                 }
