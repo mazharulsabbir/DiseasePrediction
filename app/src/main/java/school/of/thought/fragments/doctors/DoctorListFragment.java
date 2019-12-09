@@ -1,4 +1,4 @@
-package school.of.thought.fragments;
+package school.of.thought.fragments.doctors;
 
 
 import android.os.Bundle;
