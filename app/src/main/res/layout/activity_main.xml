@@ -25,13 +25,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp"
             android:backgroundTint="@color/white"
             android:focusable="true"
-            app:maxImageSize="60dp"
+            android:src="@drawable/favicon"
             app:fabCustomSize="70dp"
-            android:layout_marginBottom="25dp"
-            android:layout_marginRight="25dp"
-            android:src="@drawable/favicon" />
+            app:maxImageSize="60dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView

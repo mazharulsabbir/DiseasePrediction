@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
                     startActivity(new Intent(getApplicationContext(), DoctorRegistration.class));
                     return true;
 
+                    case R.id.doctor_list:
+                    startActivity(new Intent(getApplicationContext(), DoctorsFragmentsHolder.class));
+                    return true;
+
             }
 
             drawer.closeDrawer(GravityCompat.START);
