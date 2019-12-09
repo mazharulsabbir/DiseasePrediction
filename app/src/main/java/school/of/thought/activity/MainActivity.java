@@ -140,10 +140,10 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
 
         videoView.setVideoURI(Uri.parse(uri));
 
-        MediaController mediaController = new MediaController(this);
-        videoView.setMediaController(mediaController);
-        mediaController.setAnchorView(videoView);
-        videoView.start();
+//        MediaController mediaController = new MediaController(this);
+//        videoView.setMediaController(mediaController);
+//        mediaController.setAnchorView(videoView);
+//        videoView.start();
 
         videoView.setOnPreparedListener(mediaPlayer -> {
             Logger.getLogger("Video Prepared").warning("Prepared");

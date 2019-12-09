@@ -16,7 +16,7 @@
         app:expandedTitleGravity="bottom"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
         app:title="@string/app_name"
-        app:titleEnabled="false">
+        app:titleEnabled="true">
 
         <FrameLayout
             android:layout_width="match_parent"
