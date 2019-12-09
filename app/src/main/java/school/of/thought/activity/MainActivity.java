@@ -31,8 +31,6 @@ import java.util.logging.Logger;
 
 import school.of.thought.R;
 import school.of.thought.adapter.DiseaseListAdapter;
-import school.of.thought.fragments.login_registration.Registration;
-import school.of.thought.fragments.navigation_holder.DoctorRegistration;
 import school.of.thought.model.Disease;
 import school.of.thought.utils.Utils;
 
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
                     }
                     return true;
                 case R.id.doctor_registration:
-
+                    startActivity(new Intent(getApplicationContext(), DoctorRegistration.class));
                     return true;
 
             }
