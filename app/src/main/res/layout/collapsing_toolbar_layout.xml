@@ -9,22 +9,24 @@
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentScrim="?colorPrimary"
-        app:expandedTitleGravity="bottom"
+        app:expandedTitleGravity="center_vertical"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-        app:title="@string/app_name">
+        app:title="@string/app_name"
+        app:titleEnabled="false">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="?actionBarSize">
 
             <VideoView
                 android:id="@+id/video"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="200dp" />
 
             <ProgressBar
                 android:id="@+id/loading_video"
@@ -38,9 +40,21 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:layout_collapseMode="pin"
-            app:layout_scrollFlags="enterAlways|snap|scroll"
-            app:titleTextColor="?colorOnPrimary" />
+            app:title="@string/app_name" />
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="8dp"
+            android:drawableEnd="@drawable/ic_search_black_24dp"
+            android:drawablePadding="16dp"
+            android:ellipsize="end"
+            android:hint="What disease are you looking for?"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_collapseMode="pin" />
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 </com.google.android.material.appbar.AppBarLayout>
