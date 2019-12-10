@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -50,6 +52,15 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             }
         holder.chamber.setText(chambers.toString());
 
+        //appoinment button click
+        holder.appoinment.setOnClickListener(v -> {
+
+        });
+
+        //cardview clik
+        holder.cardview.setOnClickListener(v -> {
+
+        });
     }
 
     @Override
@@ -62,6 +73,8 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
         private ImageView image;
         private TextView name;
         private TextView designation, area, chamber;
+        private Button appoinment;
+        private CardView cardview;
 
         public DoctorHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +83,9 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             designation = itemView.findViewById(R.id.doctor_designation);
             area = itemView.findViewById(R.id.doctor_area);
             chamber = itemView.findViewById(R.id.doctor_chamber);
+            appoinment = itemView.findViewById(R.id.appoinmentButton);
+            cardview = itemView.findViewById(R.id.cardview);
+
         }
     }
 }

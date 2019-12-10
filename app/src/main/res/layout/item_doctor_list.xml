@@ -7,6 +7,7 @@
     android:layout_marginTop="@dimen/card_margin_top_bottom"
     android:layout_marginEnd="@dimen/card_margin_start_end"
     android:layout_marginBottom="@dimen/card_margin_top_bottom"
+    android:id="@+id/cardview"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
@@ -81,12 +82,12 @@
             android:textColor="?colorAccent"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/materialButton"
+            app:layout_constraintEnd_toStartOf="@+id/appoinmentButton"
             app:layout_constraintStart_toStartOf="@+id/doctor_image"
             app:layout_constraintTop_toBottomOf="@+id/doctor_image" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton"
+            android:id="@+id/appoinmentButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
