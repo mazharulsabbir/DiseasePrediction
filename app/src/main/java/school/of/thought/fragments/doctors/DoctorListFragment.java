@@ -70,6 +70,7 @@ public class DoctorListFragment extends Fragment {
 
                         DoctorListAdapter adapter = new DoctorListAdapter(doctorDetails, getContext());
                         recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }
