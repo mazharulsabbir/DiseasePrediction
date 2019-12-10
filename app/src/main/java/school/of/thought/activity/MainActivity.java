@@ -125,22 +125,22 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
 
         recyclerView.setAdapter(diseaseListAdapter);
 
-        videoView = findViewById(R.id.video);
-        String uri = "https://firebasestorage.googleapis.com/v0/b/wireless-project-in-lab.appspot.com/o/Backstreet%20Boys%20-%20Show%20Me%20The%20Meaning%20Of%20Being%20Lonely_HIGH.mp4?alt=media&token=895ae878-58d4-4f8c-8cee-9b75ea03c1a4";
-
-        videoView.setVideoURI(Uri.parse(uri));
-
-        MediaController mediaController = new MediaController(this);
-        videoView.setMediaController(mediaController);
-        mediaController.setAnchorView(videoView);
-        videoView.start();
-
-        videoView.setOnPreparedListener(mediaPlayer -> {
-            Logger.getLogger("Video Prepared").warning("Prepared");
-
-            ProgressBar progressBar = findViewById(R.id.loading_video);
-            progressBar.setVisibility(View.GONE);
-        });
+//        videoView = findViewById(R.id.video);
+//        String uri = "https://firebasestorage.googleapis.com/v0/b/wireless-project-in-lab.appspot.com/o/Backstreet%20Boys%20-%20Show%20Me%20The%20Meaning%20Of%20Being%20Lonely_HIGH.mp4?alt=media&token=895ae878-58d4-4f8c-8cee-9b75ea03c1a4";
+//
+//        videoView.setVideoURI(Uri.parse(uri));
+//
+//        MediaController mediaController = new MediaController(this);
+//        videoView.setMediaController(mediaController);
+//        mediaController.setAnchorView(videoView);
+//        videoView.start();
+//
+//        videoView.setOnPreparedListener(mediaPlayer -> {
+//            Logger.getLogger("Video Prepared").warning("Prepared");
+//
+//            ProgressBar progressBar = findViewById(R.id.loading_video);
+//            progressBar.setVisibility(View.GONE);
+//        });
     }
 
     private void initDummyData() {

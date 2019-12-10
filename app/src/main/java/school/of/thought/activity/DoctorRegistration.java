@@ -1,18 +1,31 @@
 package school.of.thought.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +36,20 @@ import school.of.thought.model.DoctorChamberListModel;
 import school.of.thought.model.DoctorRegistrationModel;
 
 public class DoctorRegistration extends AppCompatActivity {
-    TextInputLayout name,designation,special_area,email,mobile,pass,chamber_name,district,specific_place,room_number;
-
+    public static final int PROFILE_IMAGE = 1;
+    TextInputLayout name, designation, special_area, email, mobile, pass, chamber_name, district, specific_place, room_number;
     TextView anotherChamber;
+    ImageView profileImage;
+    String userId;
+    Uri imageURI;
+    String imageLink = "";
+    DatabaseReference mDatabase;
 
-    List<DoctorChamberListModel>chamber_list=new ArrayList<>();
+
+    List<DoctorChamberListModel> chamber_list = new ArrayList<>();
 
     CircularProgressButton register_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,28 +68,26 @@ public class DoctorRegistration extends AppCompatActivity {
         room_number = findViewById(R.id.textInputRoomNumber);
         anotherChamber = findViewById(R.id.another_chamber);
         register_button = findViewById(R.id.cirRegisterButton);
+        profileImage = findViewById(R.id.doctor_profileImage);
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        String userId = mDatabase.push().getKey();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mDatabase.push().getKey();
+
+        profileImage.setOnClickListener(v -> {
+            Intent gallery = new Intent();
+            gallery.setType("image/*");
+            gallery.setAction(Intent.ACTION_GET_CONTENT);
+
+            startActivityForResult(Intent.createChooser(gallery, "Select Picture"), PROFILE_IMAGE);
+
+        });
 
         register_button.setOnClickListener(v -> {
-            DoctorChamberListModel doctorChamberListModel = new DoctorChamberListModel(
-                    String.valueOf(chamber_name.getEditText().getText()),
-                    String.valueOf(district.getEditText().getText()),
-                    String.valueOf(specific_place.getEditText().getText()),
-                    String.valueOf(room_number.getEditText().getText())
-            );
-            chamber_list.add(doctorChamberListModel);
-            DoctorRegistrationModel doctorRegistrationModel = new DoctorRegistrationModel(
 
-                    String.valueOf(name.getEditText().getText()),
-                    String.valueOf(designation.getEditText().getText()),
-                    String.valueOf(special_area.getEditText().getText()),
-                    String.valueOf(email.getEditText().getText()),
-                    String.valueOf(mobile.getEditText().getText()),
-                    String.valueOf(pass.getEditText().getText()),
-                    chamber_list);
-            mDatabase.child("doctors").child(userId).setValue(doctorRegistrationModel);
+
+            doctorRegistration();
+
+
         });
 
         anotherChamber.setOnClickListener(view1 -> {
@@ -113,5 +131,71 @@ public class DoctorRegistration extends AppCompatActivity {
             alertDialog.show();
 
         });
+
+
+    }
+
+    public void uploadprofileImage() {
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("profile_image/" + userId);
+        ref.putFile(imageURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+
+                ref.getDownloadUrl().addOnSuccessListener(uri -> {
+                    imageLink = uri.toString();
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("image Upload", "failed");
+            }
+        });
+    }
+
+
+    private void doctorRegistration(){
+        DoctorChamberListModel doctorChamberListModel = new DoctorChamberListModel(
+                String.valueOf(chamber_name.getEditText().getText()),
+                String.valueOf(district.getEditText().getText()),
+                String.valueOf(specific_place.getEditText().getText()),
+                String.valueOf(room_number.getEditText().getText())
+        );
+        chamber_list.add(doctorChamberListModel);
+        DoctorRegistrationModel doctorRegistrationModel = new DoctorRegistrationModel(
+
+                String.valueOf(name.getEditText().getText()),
+                String.valueOf(designation.getEditText().getText()),
+                String.valueOf(special_area.getEditText().getText()),
+                String.valueOf(email.getEditText().getText()),
+                String.valueOf(mobile.getEditText().getText()),
+                String.valueOf(pass.getEditText().getText()),
+                imageLink,
+                chamber_list);
+        mDatabase.child("doctors").child(userId).setValue(doctorRegistrationModel);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == PROFILE_IMAGE && resultCode == RESULT_OK) {
+            imageURI = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
+                profileImage.setImageBitmap(bitmap);
+                uploadprofileImage();
+                if (imageURI != null) {
+                } else {
+                    imageLink = "";
+                }
+            } catch (Exception e) {
+
+            }
+
+        }
     }
 }

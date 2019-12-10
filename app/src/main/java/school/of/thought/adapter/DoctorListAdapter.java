@@ -44,7 +44,13 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
         holder.designation.setText(helper.getDrsignation());
         holder.area.setText(helper.getSpecial_area());
 
-        Glide.with(context).load(R.drawable.ic_launcher_background).circleCrop().into(holder.image);
+        if (helper.getImage()!=null)
+        {
+            Glide.with(context).load(helper.getImage()).circleCrop().into(holder.image);
+        }else {
+            Glide.with(context).load(R.drawable.doctoricon).circleCrop().into(holder.image);
+
+        }
         StringBuilder chambers = new StringBuilder();
         if (!helper.chamber_list.isEmpty())
             for (int i = 0; i < helper.chamber_list.size(); i++) {

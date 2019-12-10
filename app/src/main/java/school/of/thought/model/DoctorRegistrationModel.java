@@ -13,22 +13,23 @@ public class DoctorRegistrationModel {
     public String email;
     public String mobile;
     public String pass;
+    public String image;
     public List<DoctorChamberListModel> chamber_list = new ArrayList<>();
 
     public DoctorRegistrationModel() {
         //needed for firebase
     }
 
-    public DoctorRegistrationModel(String name, String drsignation, String special_area, String email, String mobile, String pass, List<DoctorChamberListModel> chamber_list) {
+    public DoctorRegistrationModel(String name, String drsignation, String special_area, String email, String mobile, String pass, String image, List<DoctorChamberListModel> chamber_list) {
         this.name = name;
         this.drsignation = drsignation;
         this.special_area = special_area;
         this.email = email;
         this.mobile = mobile;
         this.pass = pass;
+        this.image = image;
         this.chamber_list = chamber_list;
     }
-
 
     public DoctorRegistrationModel(String name, String drsignation, String special_area, List<DoctorChamberListModel> chamber_list) {
         this.name = name;
@@ -59,6 +60,10 @@ public class DoctorRegistrationModel {
 
     public String getPass() {
         return pass;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public List<DoctorChamberListModel> getChamber_list() {
