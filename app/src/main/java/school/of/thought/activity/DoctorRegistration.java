@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -186,7 +187,7 @@ public class DoctorRegistration extends AppCompatActivity {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
-                profileImage.setImageBitmap(bitmap);
+                Glide.with(getApplicationContext()).load(bitmap).centerCrop().into(profileImage);
                 uploadprofileImage();
                 if (imageURI != null) {
                 } else {

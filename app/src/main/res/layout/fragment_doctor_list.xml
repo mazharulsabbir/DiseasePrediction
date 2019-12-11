@@ -7,6 +7,7 @@
     tools:context=".fragments.doctors.DoctorListFragment">
 
     <include layout="@layout/collapsing_toolbar_layout"/>
+
     <androidx.recyclerview.widget.RecyclerView
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
