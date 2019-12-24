@@ -13,15 +13,14 @@
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentScrim="?colorPrimary"
-        app:expandedTitleGravity="center_vertical"
+        app:expandedTitleGravity="bottom"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
         app:title="@string/app_name"
-        app:titleEnabled="false">
+        app:titleEnabled="true">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="?actionBarSize">
+            android:layout_height="wrap_content">
 
             <VideoView
                 android:id="@+id/video"
@@ -39,22 +38,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:layout_collapseMode="pin"
-            app:title="@string/app_name" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginEnd="8dp"
-            android:drawableEnd="@drawable/ic_search_black_24dp"
-            android:drawablePadding="16dp"
-            android:ellipsize="end"
-            android:hint="What disease are you looking for?"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             app:layout_collapseMode="pin" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end" />
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 </com.google.android.material.appbar.AppBarLayout>

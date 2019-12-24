@@ -3,6 +3,7 @@ package school.of.thought.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +39,7 @@ import school.of.thought.adapter.DiseaseListAdapter;
 import school.of.thought.model.Disease;
 import school.of.thought.utils.Utils;
 
-public class MainActivity extends AppCompatActivity implements DiseaseListAdapter.onDiseasesListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
@@ -123,15 +129,7 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
     }
 
     private void init() {
-        initDummyData();
-
-        RecyclerView recyclerView = findViewById(R.id.disease_recycler_view);
-        DiseaseListAdapter diseaseListAdapter = new DiseaseListAdapter(diseases, this, getApplicationContext());
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-        recyclerView.setAdapter(diseaseListAdapter);
+        initDiseaseListData();
 
         videoView = findViewById(R.id.video);
         String uri = "https://firebasestorage.googleapis.com/v0/b/wireless-project-in-lab.appspot.com/o/Backstreet%20Boys%20-%20Show%20Me%20The%20Meaning%20Of%20Being%20Lonely_HIGH.mp4?alt=media&token=895ae878-58d4-4f8c-8cee-9b75ea03c1a4";
@@ -154,12 +152,58 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
         progressBar.setVisibility(View.GONE);
     }
 
-    private void initDummyData() {
-        String desc = "Dengue fever is a disease caused by a family of viruses transmitted by Aedes mosquitoes. Symptoms of dengue fever include severe joint and muscle pain, swollen lymph nodes, headache, fever, exhaustion, and rash";
+    private void initDiseaseListData() {
+        RecyclerView recyclerView = findViewById(R.id.disease_recycler_view);
 
-        for (int i = 0; i < 40; i++) {
-            diseases.add(new Disease("", "Dengue", desc));
-        }
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        DiseaseListAdapter diseaseListAdapter = new DiseaseListAdapter(diseases, getApplicationContext());
+
+        recyclerView.setAdapter(diseaseListAdapter);
+
+        diseaseListAdapter.setOnItemClickListener(p -> {
+            Log.d(TAG, "initDiseaseListData: Name: " + diseases.get(p).getName());
+            Log.d(TAG, "initDiseaseListData: Desc: " + diseases.get(p).getDescription());
+
+            if (user != null) {
+                //todo: open ques activity for getting information about disease
+            } else {
+                Intent intent = new Intent(getApplicationContext(), LoginRegistrationHolder.class);
+                startActivity(intent);
+            }
+        });
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        reference.child(Utils.DISEASE_LIST)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        Log.d(TAG, "onDataChange() returned: " + dataSnapshot.getChildrenCount());
+
+                        if (dataSnapshot.hasChildren()) {
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Disease disease = snapshot.getValue(Disease.class);
+
+                                if (disease != null) {
+                                    diseases.add(disease);
+                                } else Log.d(TAG, "onDataChange: " + "null");
+                            }
+
+                            diseaseListAdapter.notifyDataSetChanged();
+
+                        } else Log.d(TAG, "onDataChange: " + "no data");
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(TAG, "onCancelled: ", databaseError.toException());
+                    }
+                });
     }
 
     private void initCurrentTheme() {
@@ -183,16 +227,6 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
         }
 
         recreate();
-    }
-
-    @Override
-    public void onDiseasesClick(int position) {
-        if (user != null) {
-            //todo: open ques activity for getting information about disease
-        } else {
-            Intent intent = new Intent(this, LoginRegistrationHolder.class);
-            startActivity(intent);
-        }
     }
 
     @Override
