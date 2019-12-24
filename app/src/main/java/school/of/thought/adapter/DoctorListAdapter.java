@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -42,7 +44,13 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
         holder.designation.setText(helper.getDrsignation());
         holder.area.setText(helper.getSpecial_area());
 
-        Glide.with(context).load(R.drawable.ic_launcher_background).circleCrop().into(holder.image);
+        if (helper.getImage()!=null)
+        {
+            Glide.with(context).load(helper.getImage()).circleCrop().into(holder.image);
+        }else {
+            Glide.with(context).load(R.drawable.doctoricon).circleCrop().into(holder.image);
+
+        }
         StringBuilder chambers = new StringBuilder();
         if (!helper.chamber_list.isEmpty())
             for (int i = 0; i < helper.chamber_list.size(); i++) {
@@ -50,6 +58,15 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             }
         holder.chamber.setText(chambers.toString());
 
+        //appoinment button click
+        holder.appoinment.setOnClickListener(v -> {
+
+        });
+
+        //cardview clik
+        holder.cardview.setOnClickListener(v -> {
+
+        });
     }
 
     @Override
@@ -62,6 +79,8 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
         private ImageView image;
         private TextView name;
         private TextView designation, area, chamber;
+        private Button appoinment;
+        private CardView cardview;
 
         public DoctorHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +89,9 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             designation = itemView.findViewById(R.id.doctor_designation);
             area = itemView.findViewById(R.id.doctor_area);
             chamber = itemView.findViewById(R.id.doctor_chamber);
+            appoinment = itemView.findViewById(R.id.appoinmentButton);
+            cardview = itemView.findViewById(R.id.cardview);
+
         }
     }
 }

@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
         if (isDarkTheme) checkTheme.setChecked(false);
         else checkTheme.setChecked(true);
 
+        //add listener
+        checkTheme.setOnCheckedChangeListener((buttonView, isChecked) -> changeTheme());
+
         nav.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
 
@@ -97,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     else checkTheme.setChecked(true);
 
                     changeTheme();
-                    return true;
+                    break;
 
                 case R.id.login_logout:
                     if (user != null) {
@@ -106,25 +109,20 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         startActivity(new Intent(getApplicationContext(), LoginRegistrationHolder.class));
                     }
-                    return true;
+                    break;
+
                 case R.id.doctor_registration:
                     startActivity(new Intent(getApplicationContext(), DoctorRegistration.class));
-                    return true;
+                    break;
 
                 case R.id.doctor_list:
                     startActivity(new Intent(getApplicationContext(), DoctorsFragmentsHolder.class));
-                    return true;
+                    break;
 
             }
 
             drawer.closeDrawer(GravityCompat.START);
             return true;
-        });
-
-        //add listener
-        checkTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            //your action
-            changeTheme();
         });
     }
 
@@ -226,7 +224,8 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        recreate();
+        initCurrentTheme();
+//        recreate();
     }
 
     @Override
