@@ -15,6 +15,7 @@
     <color name="btn_text_color_white">#FFFFFF</color>
     <color name="text_view_text_color_white">#FFFFFF</color>
     <color name="themeColor">#11CFC5</color>
+    <color name="colorTransparent">#1AFFFFFF</color>
 
     <!--normal colors-->
     <color name="darkTextColor">#020000</color>

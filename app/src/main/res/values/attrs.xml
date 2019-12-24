@@ -15,5 +15,7 @@
         <attr name="tv_color_light_blue" format="color" />
         <attr name="btn_text_color_white" format="color" />
         <attr name="text_view_text_color_white" format="color" />
+        <attr name="colorTransparent" format="color" />
+
     </declare-styleable>
 </resources>

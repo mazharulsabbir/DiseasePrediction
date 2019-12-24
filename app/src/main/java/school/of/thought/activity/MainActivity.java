@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initNavigationDrawer() {
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -80,6 +84,22 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
         NavigationView nav = findViewById(R.id.nav_view);
+
+        View navHeaderView = nav.getHeaderView(0);
+
+        ImageView avatar = navHeaderView.findViewById(R.id.nav_header_avatar);
+        TextView name = navHeaderView.findViewById(R.id.nav_header_name);
+        TextView mobile = navHeaderView.findViewById(R.id.nav_header_mobile);
+
+        if (user != null) {
+            if (user.getDisplayName().isEmpty()) {
+                name.setText("User");
+            } else name.setText(user.getDisplayName());
+
+            mobile.setText(user.getPhoneNumber());
+
+            Glide.with(this).load(Utils.COMMON_USER_AVATAR_URL).circleCrop().into(avatar);
+        }
 
         Menu menu_nav = nav.getMenu();
         MenuItem menuItem = menu_nav.findItem(R.id.app_bar_switch_theme);

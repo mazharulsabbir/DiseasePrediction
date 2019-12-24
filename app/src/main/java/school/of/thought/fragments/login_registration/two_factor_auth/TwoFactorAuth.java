@@ -1,6 +1,7 @@
 package school.of.thought.fragments.login_registration.two_factor_auth;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -291,6 +293,16 @@ public class TwoFactorAuth extends Fragment {
                                     startActivity(new Intent(getActivity(), MainActivity.class));
                                 });
 
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(userRegistration.getName())
+                                .setPhotoUri(Uri.parse("" +
+                                        Utils.COMMON_USER_AVATAR_URL))
+                                .build();
+
+                        user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(task1 -> {
+
+                                });
                     }
                 } else {
                     Log.w(TAG, "linkWithCredential:failure", task.getException());

@@ -1,7 +1,9 @@
 package school.of.thought.activity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import school.of.thought.R;
@@ -33,5 +35,13 @@ public class DiseaseQuestionsAnswering extends AppCompatActivity {
                     )
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }

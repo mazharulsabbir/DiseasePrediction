@@ -17,6 +17,8 @@
         <item name="tv_color_light_blue">@color/tv_color_light_blue</item>
         <item name="btn_text_color_white">@color/btn_text_color_white</item>
         <item name="text_view_text_color_white">@color/text_view_text_color_white</item>
+        <item name="colorTransparent">@color/colorTransparent</item>
+
     </style>
 
     <style name="AppTheme" parent="AppTheme.Light">
