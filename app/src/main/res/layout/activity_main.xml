@@ -18,7 +18,7 @@
             android:id="@+id/disease_recycler_view"
             android:layout_width="match_parent"
             tools:listitem="@layout/item_disease"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

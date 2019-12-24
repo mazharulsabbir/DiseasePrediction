@@ -8,6 +8,7 @@ public class Utils {
     public static final String DOCTORS_REF = "doctors/";
 
     public static final String DISEASE_LIST = "disease-list/";
+    public static final String DISEASE_NAME = "disease-name";
 
     public static String getUserInfoReference(FirebaseUser user) {
         return "users/" + user.getUid() + "/";

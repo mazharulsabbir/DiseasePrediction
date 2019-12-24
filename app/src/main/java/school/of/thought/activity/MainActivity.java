@@ -165,7 +165,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "initDiseaseListData: Desc: " + diseases.get(p).getDescription());
 
             if (user != null) {
-                //todo: open ques activity for getting information about disease
+                Intent intent = new Intent(getApplicationContext(), DiseaseQuestionsAnswering.class);
+                intent.putExtra(Utils.DISEASE_NAME, diseases.get(p));
+                startActivity(intent);
             } else {
                 Intent intent = new Intent(getApplicationContext(), LoginRegistrationHolder.class);
                 startActivity(intent);

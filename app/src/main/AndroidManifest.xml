@@ -16,8 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activity.DiseaseQuestionsAnswering"
+            android:theme="@style/AppTheme.Light"/>
         <activity android:name=".activity.DoctorRegistration" />
-        <activity android:name=".activity.DoctorsFragmentsHolder"></activity>
+        <activity android:name=".activity.DoctorsFragmentsHolder" />
         <activity android:name=".activity.LoginRegistrationHolder" />
         <activity
             android:name=".activity.MainActivity"
