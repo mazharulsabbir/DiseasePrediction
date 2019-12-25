@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         initCurrentTheme();
         setContentView(R.layout.activity_main);
 
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         initNavigationDrawer();
 
         init();
@@ -195,6 +197,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child(Utils.DISEASE_LIST).keepSynced(true);
+
+//        reference.onDisconnect().setValue()
 
         reference.child(Utils.DISEASE_LIST)
                 .addValueEventListener(new ValueEventListener() {
