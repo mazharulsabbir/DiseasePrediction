@@ -10,14 +10,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import school.of.thought.R;
+import school.of.thought.adapter.DiseaseAnswerListAdapter;
 import school.of.thought.model.Disease;
+import school.of.thought.model.Question;
 import school.of.thought.utils.Utils;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DiseaseDetailFragment extends Fragment {
 
     private Disease disease;
@@ -59,6 +69,41 @@ public class DiseaseDetailFragment extends Fragment {
         if (disease != null) {
             diseaseDesc.setText(disease.getDescription());
         }
+
+        List<Question> questions = new ArrayList<>();
+
+        RecyclerView recyclerView = view.findViewById(R.id.ques_list_with_ans);
+
+        DiseaseAnswerListAdapter diseaseAnswerListAdapter = new DiseaseAnswerListAdapter(questions, getContext());
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        recyclerView.setAdapter(diseaseAnswerListAdapter);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Utils.getQuesListOf(disease.getName()));
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Question question = snapshot.getValue(Question.class);
+
+                        if (question != null) {
+                            questions.add(question);
+                        }
+                    }
+
+                    diseaseAnswerListAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

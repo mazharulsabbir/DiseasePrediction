@@ -7,29 +7,24 @@
     android:background="?colorPrimary"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin"
     tools:context=".fragments.disease.QuestionsFragment">
 
     <TextView
+        android:padding="@dimen/activity_horizontal_margin"
         android:id="@+id/disease_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         android:textColor="?white" />
 
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ques_list_with_ans"
+        tools:listitem="@layout/item_disease_ques_type_radio_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="?white"
-            android:src="@drawable/ic_play_arrow_black_24dp"
-            app:maxImageSize="40dp"
-            app:rippleColor="?white" />
-
-    </FrameLayout>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

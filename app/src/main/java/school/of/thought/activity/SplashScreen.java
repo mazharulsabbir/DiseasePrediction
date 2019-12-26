@@ -8,6 +8,8 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import school.of.thought.R;
 import school.of.thought.utils.Utils;
 
@@ -18,6 +20,8 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initCurrentTheme();
         setContentView(R.layout.activity_splash_screen);
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
