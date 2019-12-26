@@ -1,9 +1,11 @@
 package school.of.thought.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -19,6 +21,7 @@ import school.of.thought.model.Question;
 import school.of.thought.utils.Utils;
 
 public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswerListAdapter.AnswerHolder> {
+    private static final String TAG = "DiseaseAnswerListAdapte";
     private List<Question> questions;
     private Context context;
 
@@ -57,15 +60,21 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
 
         switch (holder.getItemViewType()) {
             case Utils.QUES_TYPE_DROPDOWN:
+                String[] list = {"abc"};
+                ArrayAdapter aa = new ArrayAdapter(context, android.R.layout.simple_spinner_item, list);
+                aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+                holder.spinnerAns.setAdapter(aa);
                 break;
 
             case Utils.QUES_TYPE_RADIO_GROUP:
+                holder.radioGroupAns.getCheckedRadioButtonId();
+                Log.d(TAG, "onBindViewHolder: " + holder.radioGroupAns.getCheckedRadioButtonId());
                 break;
             case Utils.QUES_TYPE_TEXT:
+                holder.editTextAns.setHint("Your ans..");
                 break;
         }
-
     }
 
     @Override

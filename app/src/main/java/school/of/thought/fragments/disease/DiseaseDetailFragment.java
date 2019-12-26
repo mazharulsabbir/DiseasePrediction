@@ -2,6 +2,7 @@ package school.of.thought.fragments.disease;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,9 @@ import school.of.thought.model.Disease;
 import school.of.thought.model.Question;
 import school.of.thought.utils.Utils;
 
+
 public class DiseaseDetailFragment extends Fragment {
+    private static final String TAG = "DiseaseDetailFragment";
 
     private Disease disease;
 
@@ -101,7 +104,7 @@ public class DiseaseDetailFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e(TAG, "onCancelled: ", databaseError.toException());
             }
         });
 
