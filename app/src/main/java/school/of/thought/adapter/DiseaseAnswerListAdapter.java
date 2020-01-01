@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.List;
 
 import school.of.thought.R;
@@ -86,7 +88,6 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
                 if (question.getAnswers() == null)
                     return;
 
-                holder.editTextAns.setHint("Your ans..");
                 break;
         }
     }
@@ -117,7 +118,7 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
         private TextView quesNo;
         private TextView ques;
 
-        private EditText editTextAns;
+        private TextInputLayout editTextAns;
 
         private RadioGroup radioGroupAns;
 
