@@ -20,6 +20,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
@@ -31,6 +34,7 @@ import java.util.logging.Logger;
 
 import school.of.thought.R;
 import school.of.thought.fragments.disease.DiseaseFragment;
+import school.of.thought.fragments.doctors.DoctorListFragment;
 import school.of.thought.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -132,12 +136,16 @@ public class MainActivity extends AppCompatActivity {
                     changeTheme();
                     break;
 
+                case R.id.disease_list:
+                    openFragment(new DiseaseFragment());
+                    break;
+
                 case R.id.doctor_registration:
                     startActivity(new Intent(getApplicationContext(), DoctorRegistration.class));
                     break;
 
                 case R.id.doctor_list:
-                    startActivity(new Intent(getApplicationContext(), DoctorsFragmentsHolder.class));
+                    openFragment(new DoctorListFragment());
                     break;
 
             }
@@ -145,6 +153,17 @@ public class MainActivity extends AppCompatActivity {
             drawer.closeDrawer(GravityCompat.START);
             return true;
         });
+    }
+
+    private void openFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.fragment_container,
+                fragment).commit();
+
+        fragmentManager.executePendingTransactions();
     }
 
     private void init() {

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 
 import java.util.List;
 
@@ -45,7 +46,9 @@ public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.
         holder.shortDesc.setText(disease.getDescription());
 
         if (disease.getImage().isEmpty())
-            Glide.with(context).load(R.drawable.ic_launcher_background).into(holder.image);
+            Glide.with(context).load(R.drawable.ic_launcher_background)
+                    .error(R.drawable.error)
+                    .into(holder.image);
         else Glide.with(context).load(disease.getImage()).into(holder.image);
 
     }
