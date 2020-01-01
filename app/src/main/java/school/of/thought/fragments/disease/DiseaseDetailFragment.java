@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import java.util.List;
 import school.of.thought.R;
 import school.of.thought.adapter.DiseaseAnswerListAdapter;
 import school.of.thought.model.Disease;
+import school.of.thought.model.DiseaseQuestionAnswer;
 import school.of.thought.model.Question;
 import school.of.thought.utils.Utils;
 
@@ -34,6 +36,7 @@ public class DiseaseDetailFragment extends Fragment {
     private static final String TAG = "DiseaseDetailFragment";
 
     private Disease disease;
+    private Toast toast;
 
     public static DiseaseDetailFragment newInstance(Disease disease) {
         DiseaseDetailFragment fragment = new DiseaseDetailFragment();
@@ -73,11 +76,11 @@ public class DiseaseDetailFragment extends Fragment {
             diseaseDesc.setText(disease.getDescription());
         }
 
-        List<Question> questions = new ArrayList<>();
+        List<DiseaseQuestionAnswer> diseaseQuestionAnswerList = new ArrayList<>();
 
         RecyclerView recyclerView = view.findViewById(R.id.ques_list_with_ans);
 
-        DiseaseAnswerListAdapter diseaseAnswerListAdapter = new DiseaseAnswerListAdapter(questions, getContext());
+        DiseaseAnswerListAdapter diseaseAnswerListAdapter = new DiseaseAnswerListAdapter(diseaseQuestionAnswerList, getContext());
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -93,8 +96,15 @@ public class DiseaseDetailFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Question question = snapshot.getValue(Question.class);
 
+                        List<String> answers = new ArrayList<>();
+
+                        for (DataSnapshot answerSnapshot : snapshot.child("answer").getChildren()) {
+                            String s = answerSnapshot.getValue(String.class);
+                            answers.add(s);
+                        }
+
                         if (question != null) {
-                            questions.add(question);
+                            diseaseQuestionAnswerList.add(new DiseaseQuestionAnswer(question, answers));
                         }
                     }
 

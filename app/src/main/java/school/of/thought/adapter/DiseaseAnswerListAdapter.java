@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,15 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import school.of.thought.R;
-import school.of.thought.model.Question;
+import school.of.thought.model.DiseaseQuestionAnswer;
 import school.of.thought.utils.Utils;
 
 public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswerListAdapter.AnswerHolder> {
     private static final String TAG = "DiseaseAnswerListAdapte";
-    private List<Question> questions;
+    private List<DiseaseQuestionAnswer> questions;
     private Context context;
 
-    public DiseaseAnswerListAdapter(List<Question> questions, Context context) {
+    public DiseaseAnswerListAdapter(List<DiseaseQuestionAnswer> questions, Context context) {
         this.questions = questions;
         this.context = context;
     }
@@ -52,26 +53,39 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
     @Override
     public void onBindViewHolder(@NonNull AnswerHolder holder, int position) {
 
-        Question question = questions.get(position);
+        DiseaseQuestionAnswer question = questions.get(position);
 
         holder.quesNo.setText(String.valueOf(position + 1));
 
-        holder.ques.setText(question.getQuestion());
+        holder.ques.setText(question.getQuestion().getQuestion());
 
         switch (holder.getItemViewType()) {
             case Utils.QUES_TYPE_DROPDOWN:
-                String[] list = {"abc"};
-                ArrayAdapter aa = new ArrayAdapter(context, android.R.layout.simple_spinner_item, list);
+
+                if (question.getAnswers() == null)
+                    return;
+
+                String[] strings = question.getAnswers().toArray(new String[0]);
+
+                ArrayAdapter aa = new ArrayAdapter(context, android.R.layout.simple_spinner_item, strings);
                 aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 holder.spinnerAns.setAdapter(aa);
                 break;
 
             case Utils.QUES_TYPE_RADIO_GROUP:
-                holder.radioGroupAns.getCheckedRadioButtonId();
+                if (question.getAnswers() == null)
+                    return;
+
+                holder.yes.setText(question.getAnswers().get(0));
+                holder.no.setText(question.getAnswers().get(1));
+
                 Log.d(TAG, "onBindViewHolder: " + holder.radioGroupAns.getCheckedRadioButtonId());
                 break;
             case Utils.QUES_TYPE_TEXT:
+                if (question.getAnswers() == null)
+                    return;
+
                 holder.editTextAns.setHint("Your ans..");
                 break;
         }
@@ -84,12 +98,12 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
 
     @Override
     public int getItemViewType(int position) {
-        if (questions.get(position).getQuestion_type()
+        if (questions.get(position).getQuestion().getQuestion_type()
                 .equals(Utils.TYPE_DROPDOWN)) {
 
             return Utils.QUES_TYPE_DROPDOWN;
 
-        } else if (questions.get(position).getQuestion_type()
+        } else if (questions.get(position).getQuestion().getQuestion_type()
                 .equals(Utils.TYPE_RADIO_GROUP)) {
 
             return Utils.QUES_TYPE_RADIO_GROUP;
@@ -107,6 +121,8 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
 
         private RadioGroup radioGroupAns;
 
+        private RadioButton yes, no;
+
         private Spinner spinnerAns;
 
         public AnswerHolder(@NonNull View itemView) {
@@ -118,6 +134,9 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
             editTextAns = itemView.findViewById(R.id.ques_ans_edit_text);
 
             radioGroupAns = itemView.findViewById(R.id.ques_ans_radio_group);
+
+            yes = itemView.findViewById(R.id.radio_button_yes);
+            no = itemView.findViewById(R.id.radio_button_no);
 
             spinnerAns = itemView.findViewById(R.id.ques_ans_dropdown_list);
         }
