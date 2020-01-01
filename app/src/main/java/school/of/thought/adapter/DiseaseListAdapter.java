@@ -1,6 +1,7 @@
 package school.of.thought.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,10 @@ public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.
                     .error(R.drawable.error)
                     .into(holder.image);
         else Glide.with(context).load(disease.getImage()).into(holder.image);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.image.setClipToOutline(true);
+        }
 
     }
 

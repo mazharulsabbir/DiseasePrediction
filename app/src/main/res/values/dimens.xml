@@ -9,8 +9,8 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <!--Default cardview margins-->
-    <dimen name="card_margin_start_end">8dp</dimen>
-    <dimen name="card_margin_top_bottom">4dp</dimen>
+    <dimen name="card_margin_start_end">1dp</dimen>
+    <dimen name="card_margin_top_bottom">1dp</dimen>
     <dimen name="headerTextSize">25sp</dimen>
     <dimen name="newsMoreTextSize">12sp</dimen>
     <dimen name="loginViewsMargin">20dp</dimen>
