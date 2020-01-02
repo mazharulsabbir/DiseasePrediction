@@ -1,12 +1,17 @@
 package school.of.thought.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -21,16 +26,30 @@ import java.util.List;
 
 import school.of.thought.R;
 import school.of.thought.model.DiseaseQuestionAnswer;
+import school.of.thought.utils.DiseaseAnswerItemClickListener;
 import school.of.thought.utils.Utils;
 
 public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswerListAdapter.AnswerHolder> {
-    private static final String TAG = "DiseaseAnswerListAdapte";
+    private static final String TAG = "DiseaseAnswerAdapter";
     private List<DiseaseQuestionAnswer> questions;
     private Context context;
+
+    private DiseaseAnswerItemClickListener diseaseAnswerItemClickListener;
 
     public DiseaseAnswerListAdapter(List<DiseaseQuestionAnswer> questions, Context context) {
         this.questions = questions;
         this.context = context;
+    }
+
+    private static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        if (imm != null)
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public void setDiseaseAnswerItemClickListener(DiseaseAnswerItemClickListener diseaseAnswerItemClickListener) {
+        this.diseaseAnswerItemClickListener = diseaseAnswerItemClickListener;
     }
 
     @NonNull
@@ -54,39 +73,126 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
 
     @Override
     public void onBindViewHolder(@NonNull AnswerHolder holder, int position) {
-
-        DiseaseQuestionAnswer question = questions.get(position);
+        DiseaseQuestionAnswer diseaseQuestionAnswer = questions.get(position);
+        Log.d(TAG, "onBindViewHolder: " + diseaseQuestionAnswer);
 
         holder.quesNo.setText(String.valueOf(position + 1));
 
-        holder.ques.setText(question.getQuestion().getQuestion());
+        holder.ques.setText(diseaseQuestionAnswer.getQuestion().getQuestion());
 
         switch (holder.getItemViewType()) {
             case Utils.QUES_TYPE_DROPDOWN:
+                String[] strings = diseaseQuestionAnswer.getAnswers().toArray(new String[0]);
 
-                if (question.getAnswers() == null)
-                    return;
-
-                String[] strings = question.getAnswers().toArray(new String[0]);
-
-                ArrayAdapter aa = new ArrayAdapter(context, android.R.layout.simple_spinner_item, strings);
+                ArrayAdapter<String> aa = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, strings);
                 aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 holder.spinnerAns.setAdapter(aa);
+
+                if (diseaseQuestionAnswer.isAnswered()) {
+                    String value = diseaseQuestionAnswer.getAnswer();
+                    int pos = 0;
+
+                    for (int i = 0; i < strings.length; i++) {
+                        if (value.equals(strings[i])) break;
+                        pos = i;
+                    }
+
+                    holder.spinnerAns.setSelection(pos);
+                }
+
+                holder.spinnerAns.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        diseaseQuestionAnswer.setAnswered(true);
+                        diseaseQuestionAnswer.setAnswer(holder.spinnerAns.getSelectedItem().toString());
+
+                        setClickListener(position);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        //nothing to do
+                    }
+                });
+
                 break;
 
             case Utils.QUES_TYPE_RADIO_GROUP:
-                if (question.getAnswers() == null)
-                    return;
 
-                holder.yes.setText(question.getAnswers().get(0));
-                holder.no.setText(question.getAnswers().get(1));
+                holder.yes.setText(diseaseQuestionAnswer.getAnswers().get(0));
+                holder.no.setText(diseaseQuestionAnswer.getAnswers().get(1));
+
+                if (diseaseQuestionAnswer.isAnswered()) {
+                    switch (diseaseQuestionAnswer.getAnswer()) {
+                        case "0":
+                            holder.radioGroupAns.check(holder.no.getId());
+                            break;
+
+                        case "1":
+                            holder.radioGroupAns.check(holder.yes.getId());
+                            break;
+                    }
+                } else holder.radioGroupAns.clearCheck();
+
+                holder.radioGroupAns.setOnCheckedChangeListener((radioGroup, i) -> {
+                    switch (holder.radioGroupAns.getCheckedRadioButtonId()) {
+                        case R.id.radio_button_yes:
+                            diseaseQuestionAnswer.setAnswered(true);
+                            diseaseQuestionAnswer.setAnswer("1");
+                            break;
+
+                        case R.id.radio_button_no:
+                            diseaseQuestionAnswer.setAnswered(true);
+                            diseaseQuestionAnswer.setAnswer("0");
+                            break;
+                    }
+
+                    setClickListener(position);
+
+                });
 
                 Log.d(TAG, "onBindViewHolder: " + holder.radioGroupAns.getCheckedRadioButtonId());
                 break;
             case Utils.QUES_TYPE_TEXT:
-                if (question.getAnswers() == null)
-                    return;
+
+                if (diseaseQuestionAnswer.isAnswered()) {
+                    holder.editTextAns.getEditText().setText(diseaseQuestionAnswer.getAnswer());
+                }
+
+                holder.editTextAns.getEditText().addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        diseaseQuestionAnswer.setAnswer(editable.toString());
+
+                        if (!editable.toString().isEmpty()) {
+                            diseaseQuestionAnswer.setAnswered(true);
+                        } else {
+                            diseaseQuestionAnswer.setAnswered(false);
+                        }
+
+                        setClickListener(position);
+                    }
+                });
+
+                holder.editTextAns.getEditText().setOnEditorActionListener((textView, i, keyEvent) -> {
+                    if (i == EditorInfo.IME_ACTION_NEXT) {
+                        hideKeyboardFrom(context, holder.editTextAns);
+                        setClickListener(position);
+                        return true;
+                    }
+                    return false;
+                });
 
                 break;
         }
@@ -114,6 +220,14 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
         }
     }
 
+    private void setClickListener(int pos) {
+        if (pos != RecyclerView.NO_POSITION) {
+            if (diseaseAnswerItemClickListener != null) {
+                diseaseAnswerItemClickListener.onAnswerChange(pos, questions);
+            }
+        }
+    }
+
     public class AnswerHolder extends RecyclerView.ViewHolder {
         private TextView quesNo;
         private TextView ques;
@@ -126,7 +240,7 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
 
         private Spinner spinnerAns;
 
-        public AnswerHolder(@NonNull View itemView) {
+        private AnswerHolder(@NonNull View itemView) {
             super(itemView);
 
             quesNo = itemView.findViewById(R.id.text_view_1);

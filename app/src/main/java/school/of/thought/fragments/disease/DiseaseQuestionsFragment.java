@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,14 +33,14 @@ import school.of.thought.model.Question;
 import school.of.thought.utils.Utils;
 
 
-public class DiseaseDetailFragment extends Fragment {
-    private static final String TAG = "DiseaseDetailFragment";
+public class DiseaseQuestionsFragment extends Fragment {
+    private static final String TAG = "DiseaseQuestions";
 
     private Disease disease;
-    private Toast toast;
+    private FloatingActionButton submitAnswer;
 
-    public static DiseaseDetailFragment newInstance(Disease disease) {
-        DiseaseDetailFragment fragment = new DiseaseDetailFragment();
+    public static DiseaseQuestionsFragment newInstance(Disease disease) {
+        DiseaseQuestionsFragment fragment = new DiseaseQuestionsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(Utils.DISEASE_NAME, disease);
@@ -63,7 +64,7 @@ public class DiseaseDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_disease_detail, container, false);
+        return inflater.inflate(R.layout.fragment_disease_questions, container, false);
     }
 
     @Override
@@ -71,6 +72,7 @@ public class DiseaseDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView diseaseDesc = view.findViewById(R.id.disease_desc);
+        submitAnswer = view.findViewById(R.id.submit_answer);
 
         if (disease != null) {
             diseaseDesc.setText(disease.getDescription());
@@ -80,16 +82,12 @@ public class DiseaseDetailFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.ques_list_with_ans);
 
-        DiseaseAnswerListAdapter diseaseAnswerListAdapter = new DiseaseAnswerListAdapter(diseaseQuestionAnswerList, getContext());
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        recyclerView.setAdapter(diseaseAnswerListAdapter);
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Utils.getQuesListOf(disease.getName()));
 
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()) {
@@ -104,11 +102,45 @@ public class DiseaseDetailFragment extends Fragment {
                         }
 
                         if (question != null) {
-                            diseaseQuestionAnswerList.add(new DiseaseQuestionAnswer(question, answers));
+                            diseaseQuestionAnswerList.add(new DiseaseQuestionAnswer(question, answers, false));
                         }
                     }
 
-                    diseaseAnswerListAdapter.notifyDataSetChanged();
+                    DiseaseAnswerListAdapter diseaseAnswerListAdapter = new DiseaseAnswerListAdapter(diseaseQuestionAnswerList, getContext());
+
+                    recyclerView.setAdapter(diseaseAnswerListAdapter);
+
+                    diseaseAnswerListAdapter.setDiseaseAnswerItemClickListener((p, answerList) -> {
+                        Toast.makeText(getContext(), answerList.get(p).isAnswered() + "Clicked" + p, Toast.LENGTH_SHORT).show();
+
+                        if (p < diseaseQuestionAnswerList.size()) {
+                            p++;
+                            recyclerView.smoothScrollToPosition(p);
+                        }
+
+                        boolean valid = true;
+
+                        StringBuilder stringBuilder = new StringBuilder();
+
+                        for (int i = 0; i < answerList.size(); i++) {
+                            DiseaseQuestionAnswer questionAnswer = answerList.get(i);
+
+                            stringBuilder.append(questionAnswer.isAnswered())
+                                    .append(i + 1).append(questionAnswer.isAnswered()).append("\n");
+
+                            if (!questionAnswer.isAnswered()) {
+                                valid = false;
+                                break;
+                            }
+                        }
+
+                        Log.d(TAG, "onDataChange: " + stringBuilder.toString());
+
+                        if (valid)
+                            submitAnswer.setVisibility(View.VISIBLE);
+                        else submitAnswer.setVisibility(View.GONE);
+
+                    });
                 }
             }
 

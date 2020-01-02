@@ -5,9 +5,10 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import school.of.thought.R;
-import school.of.thought.fragments.disease.DiseaseDetailFragment;
+import school.of.thought.fragments.disease.DiseaseQuestionsFragment;
 import school.of.thought.model.Disease;
 import school.of.thought.utils.Utils;
 
@@ -30,7 +31,7 @@ public class DiseaseQuestionsAnswering extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, DiseaseDetailFragment
+                    .add(R.id.container, DiseaseQuestionsFragment
                             .newInstance(disease)
                     )
                     .commit();
