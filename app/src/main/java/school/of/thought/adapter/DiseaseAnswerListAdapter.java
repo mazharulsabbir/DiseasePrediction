@@ -123,8 +123,6 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
             holder.no.setText(diseaseQuestionAnswer.getAnswers().get(1));
 
             holder.radioGroupAns.setOnCheckedChangeListener((radioGroup, i) -> {
-                Toast.makeText(context, i + "RG " + position, Toast.LENGTH_SHORT).show();
-
                 switch (i) {
                     case R.id.radio_button_yes:
                         diseaseQuestionAnswer.setAnswered(true);
@@ -182,7 +180,6 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
             });
 
             holder.editTextAns.getEditText().setOnEditorActionListener((textView, i, keyEvent) -> {
-                Toast.makeText(context, "ET " + position, Toast.LENGTH_SHORT).show();
 
                 if (i == EditorInfo.IME_ACTION_NEXT) {
                     hideKeyboardFrom(context, holder.editTextAns);

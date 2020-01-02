@@ -30,14 +30,18 @@ import school.of.thought.adapter.DiseaseAnswerListAdapter;
 import school.of.thought.model.Disease;
 import school.of.thought.model.DiseaseQuestionAnswer;
 import school.of.thought.model.Question;
+import school.of.thought.utils.DiseaseAnswerItemClickListener;
 import school.of.thought.utils.Utils;
 
 
-public class DiseaseQuestionsFragment extends Fragment {
+public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerItemClickListener {
     private static final String TAG = "DiseaseQuestions";
-
+    List<DiseaseQuestionAnswer> diseaseQuestionAnswerList = new ArrayList<>();
+    private RecyclerView recyclerView;
     private Disease disease;
     private FloatingActionButton submitAnswer;
+
+    private DiseaseAnswerListAdapter diseaseAnswerListAdapter;
 
     public static DiseaseQuestionsFragment newInstance(Disease disease) {
         DiseaseQuestionsFragment fragment = new DiseaseQuestionsFragment();
@@ -78,12 +82,23 @@ public class DiseaseQuestionsFragment extends Fragment {
             diseaseDesc.setText(disease.getDescription());
         }
 
-        List<DiseaseQuestionAnswer> diseaseQuestionAnswerList = new ArrayList<>();
+        submitAnswer.setOnClickListener(v -> {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < diseaseQuestionAnswerList.size(); i++) {
+                stringBuilder.append(diseaseQuestionAnswerList.get(i).getAnswer()).append("\n");
+            }
 
-        RecyclerView recyclerView = view.findViewById(R.id.ques_list_with_ans);
+            Toast.makeText(getContext(), stringBuilder.toString(), Toast.LENGTH_SHORT).show();
+        });
+
+        recyclerView = view.findViewById(R.id.ques_list_with_ans);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        diseaseAnswerListAdapter = new DiseaseAnswerListAdapter(diseaseQuestionAnswerList, getContext());
+
+        recyclerView.setAdapter(diseaseAnswerListAdapter);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Utils.getQuesListOf(disease.getName()));
 
@@ -106,41 +121,7 @@ public class DiseaseQuestionsFragment extends Fragment {
                         }
                     }
 
-                    DiseaseAnswerListAdapter diseaseAnswerListAdapter = new DiseaseAnswerListAdapter(diseaseQuestionAnswerList, getContext());
-
-                    recyclerView.setAdapter(diseaseAnswerListAdapter);
-
-                    diseaseAnswerListAdapter.setDiseaseAnswerItemClickListener((p, answerList) -> {
-                        Toast.makeText(getContext(), answerList.get(p).isAnswered() + "Clicked" + p, Toast.LENGTH_SHORT).show();
-
-                        if (p < diseaseQuestionAnswerList.size()) {
-                            p++;
-                            recyclerView.smoothScrollToPosition(p);
-                        }
-
-                        boolean valid = true;
-
-                        StringBuilder stringBuilder = new StringBuilder();
-
-                        for (int i = 0; i < answerList.size(); i++) {
-                            DiseaseQuestionAnswer questionAnswer = answerList.get(i);
-
-                            stringBuilder.append(questionAnswer.isAnswered())
-                                    .append(i + 1).append(questionAnswer.isAnswered()).append("\n");
-
-                            if (!questionAnswer.isAnswered()) {
-                                valid = false;
-                                break;
-                            }
-                        }
-
-                        Log.d(TAG, "onDataChange: " + stringBuilder.toString());
-
-                        if (valid)
-                            submitAnswer.setVisibility(View.VISIBLE);
-                        else submitAnswer.setVisibility(View.GONE);
-
-                    });
+                    diseaseAnswerListAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -150,6 +131,44 @@ public class DiseaseQuestionsFragment extends Fragment {
             }
         });
 
+        diseaseAnswerListAdapter.setDiseaseAnswerItemClickListener(this);
+
     }
 
+    @Override
+    public void onAnswerChange(int p, List<DiseaseQuestionAnswer> answerList) {
+        String log = answerList.get(p).isAnswered() + "Clicked" + p;
+
+        Log.d(TAG, "onAnswerChange: " + log);
+        Toast.makeText(getContext(), log, Toast.LENGTH_SHORT).show();
+
+        if (p < answerList.size()) {
+            p++;
+            recyclerView.smoothScrollToPosition(p);
+        }
+
+        boolean valid = true;
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < answerList.size(); i++) {
+            DiseaseQuestionAnswer questionAnswer = answerList.get(i);
+
+            stringBuilder.append(questionAnswer.isAnswered())
+                    .append(i + 1).append(questionAnswer.isAnswered()).append("\n");
+
+            if (!questionAnswer.isAnswered()) {
+                valid = false;
+                break;
+            }
+        }
+
+        Log.d(TAG, "onDataChange: " + stringBuilder.toString());
+
+        if (valid)
+            submitAnswer.setVisibility(View.VISIBLE);
+        else submitAnswer.setVisibility(View.GONE);
+
+//        diseaseAnswerListAdapter.notifyDataSetChanged();
+    }
 }
