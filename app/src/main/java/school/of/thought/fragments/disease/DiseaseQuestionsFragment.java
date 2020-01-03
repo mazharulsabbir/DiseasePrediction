@@ -36,12 +36,16 @@ import school.of.thought.utils.Utils;
 
 public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerItemClickListener {
     private static final String TAG = "DiseaseQuestions";
-    List<DiseaseQuestionAnswer> diseaseQuestionAnswerList = new ArrayList<>();
+    private List<DiseaseQuestionAnswer> diseaseQuestionAnswerList = new ArrayList<>();
+
     private RecyclerView recyclerView;
+
     private Disease disease;
     private FloatingActionButton submitAnswer;
 
     private DiseaseAnswerListAdapter diseaseAnswerListAdapter;
+
+    private Toast toast;
 
     public static DiseaseQuestionsFragment newInstance(Disease disease) {
         DiseaseQuestionsFragment fragment = new DiseaseQuestionsFragment();
@@ -117,7 +121,7 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
                         }
 
                         if (question != null) {
-                            diseaseQuestionAnswerList.add(new DiseaseQuestionAnswer(question, answers, false));
+                            diseaseQuestionAnswerList.add(new DiseaseQuestionAnswer(question, answers, false, ""));
                         }
                     }
 
@@ -136,39 +140,35 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
     }
 
     @Override
-    public void onAnswerChange(int p, List<DiseaseQuestionAnswer> answerList) {
-        String log = answerList.get(p).isAnswered() + "Clicked" + p;
+    public void onAnswerChange(int p, String s) {
+        Log.d(TAG, "onAnswerChange: Position: " + p + ", Value: " + s);
 
-        Log.d(TAG, "onAnswerChange: " + log);
-        Toast.makeText(getContext(), log, Toast.LENGTH_SHORT).show();
-
-        if (p < answerList.size()) {
-            p++;
-            recyclerView.smoothScrollToPosition(p);
+        if (!s.isEmpty()) {
+            diseaseQuestionAnswerList.get(p).setAnswered(true);
+            diseaseQuestionAnswerList.get(p).setAnswer(s);
         }
 
         boolean valid = true;
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
-        for (int i = 0; i < answerList.size(); i++) {
-            DiseaseQuestionAnswer questionAnswer = answerList.get(i);
-
-            stringBuilder.append(questionAnswer.isAnswered())
-                    .append(i + 1).append(questionAnswer.isAnswered()).append("\n");
-
-            if (!questionAnswer.isAnswered()) {
+        for (int i = 0; i < diseaseQuestionAnswerList.size(); i++) {
+            if (!diseaseQuestionAnswerList.get(i).isAnswered()) {
                 valid = false;
                 break;
             }
+
+            builder.append(diseaseQuestionAnswerList.get(i).isAnswered()).append(i).append("\n");
         }
 
-        Log.d(TAG, "onDataChange: " + stringBuilder.toString());
+        if (toast != null)
+            toast.cancel();
 
-        if (valid)
+        toast = Toast.makeText(getContext(), builder.toString(), Toast.LENGTH_LONG);
+        toast.show();
+
+        if (valid) {
             submitAnswer.setVisibility(View.VISIBLE);
-        else submitAnswer.setVisibility(View.GONE);
-
-//        diseaseAnswerListAdapter.notifyDataSetChanged();
+        } else submitAnswer.setVisibility(View.GONE);
     }
 }

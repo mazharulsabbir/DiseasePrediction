@@ -1,10 +1,7 @@
 package school.of.thought.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +14,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +31,8 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
     private static final String TAG = "DiseaseAnswerAdapter";
     private List<DiseaseQuestionAnswer> questions;
     private Context context;
+
+    private DiseaseQuestionAnswer diseaseQuestionAnswer;
 
     private DiseaseAnswerItemClickListener diseaseAnswerItemClickListener;
 
@@ -70,12 +68,12 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
                     .inflate(R.layout.item_disease_ques_type_text, parent, false);
         }
 
-        return new AnswerHolder(view);
+        return new AnswerHolder(view, viewType);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AnswerHolder holder, int position) {
-        DiseaseQuestionAnswer diseaseQuestionAnswer = questions.get(position);
+        diseaseQuestionAnswer = questions.get(position);
         Log.d(TAG, "onBindViewHolder: " + diseaseQuestionAnswer);
 
         holder.quesNo.setText(String.valueOf(position + 1));
@@ -100,43 +98,15 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
                 }
 
                 holder.spinnerAns.setSelection(pos);
+            } else {
+
             }
 
-            holder.spinnerAns.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    diseaseQuestionAnswer.setAnswered(true);
-                    diseaseQuestionAnswer.setAnswer(holder.spinnerAns.getSelectedItem().toString());
+            Log.d(TAG, "onBindViewHolder: " + holder.spinnerAns.getSelectedItem().toString());
 
-                    setClickListener(position);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    diseaseQuestionAnswer.setAnswered(true);
-                    diseaseQuestionAnswer.setAnswer(holder.spinnerAns.getSelectedItem().toString());
-                }
-            });
-        }
-        else if (holder.getItemViewType() == Utils.QUES_TYPE_RADIO_GROUP) {
+        } else if (holder.getItemViewType() == Utils.QUES_TYPE_RADIO_GROUP) {
             holder.yes.setText(diseaseQuestionAnswer.getAnswers().get(0));
             holder.no.setText(diseaseQuestionAnswer.getAnswers().get(1));
-
-            holder.radioGroupAns.setOnCheckedChangeListener((radioGroup, i) -> {
-                switch (i) {
-                    case R.id.radio_button_yes:
-                        diseaseQuestionAnswer.setAnswered(true);
-                        diseaseQuestionAnswer.setAnswer("1");
-                        setClickListener(position);
-                        break;
-
-                    case R.id.radio_button_no:
-                        diseaseQuestionAnswer.setAnswered(true);
-                        diseaseQuestionAnswer.setAnswer("0");
-                        setClickListener(position);
-                        break;
-                }
-            });
 
             if (diseaseQuestionAnswer.isAnswered()) {
                 switch (diseaseQuestionAnswer.getAnswer()) {
@@ -148,47 +118,22 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
                         holder.radioGroupAns.check(holder.yes.getId());
                         break;
                 }
+            } else {
+                holder.radioGroupAns.clearCheck();
             }
 
             Log.d(TAG, "onBindViewHolder: " + holder.radioGroupAns.getCheckedRadioButtonId());
         } else {
             if (diseaseQuestionAnswer.isAnswered()) {
                 holder.editTextAns.getEditText().setText(diseaseQuestionAnswer.getAnswer());
-            }
+            } else holder.editTextAns.getEditText().setText("");
 
-            holder.editTextAns.getEditText().addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    diseaseQuestionAnswer.setAnswer(editable.toString());
-
-                    if (!editable.toString().isEmpty()) {
-                        diseaseQuestionAnswer.setAnswered(true);
-                    } else {
-                        diseaseQuestionAnswer.setAnswered(false);
-                    }
-                }
-            });
-
-            holder.editTextAns.getEditText().setOnEditorActionListener((textView, i, keyEvent) -> {
-
-                if (i == EditorInfo.IME_ACTION_NEXT) {
-                    hideKeyboardFrom(context, holder.editTextAns);
-                    setClickListener(position);
-                    return true;
-                }
-                return false;
-            });
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -213,14 +158,6 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
         }
     }
 
-    private void setClickListener(int pos) {
-        if (pos != RecyclerView.NO_POSITION) {
-            if (diseaseAnswerItemClickListener != null) {
-                diseaseAnswerItemClickListener.onAnswerChange(pos, questions);
-            }
-        }
-    }
-
     public class AnswerHolder extends RecyclerView.ViewHolder {
         private TextView quesNo;
         private TextView ques;
@@ -233,8 +170,7 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
 
         private Spinner spinnerAns;
 
-        @SuppressLint("ResourceType")
-        private AnswerHolder(@NonNull View itemView) {
+        private AnswerHolder(@NonNull View itemView, int viewType) {
             super(itemView);
 
             quesNo = itemView.findViewById(R.id.text_view_1);
@@ -248,6 +184,58 @@ public class DiseaseAnswerListAdapter extends RecyclerView.Adapter<DiseaseAnswer
             no = itemView.findViewById(R.id.radio_button_no);
 
             spinnerAns = itemView.findViewById(R.id.ques_ans_dropdown_list);
+
+            if (viewType == Utils.QUES_TYPE_DROPDOWN) {
+                //spinner item change listener
+                spinnerAns.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        diseaseQuestionAnswer.setAnswered(true);
+                        diseaseQuestionAnswer.setAnswer(spinnerAns.getSelectedItem().toString());
+                        clickListener(spinnerAns.getSelectedItem().toString());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        diseaseQuestionAnswer.setAnswered(true);
+                        diseaseQuestionAnswer.setAnswer(spinnerAns.getSelectedItem().toString());
+                    }
+                });
+            } else if (viewType == Utils.QUES_TYPE_RADIO_GROUP) {
+                yes.setOnClickListener(view -> {
+                    diseaseQuestionAnswer.setAnswered(true);
+                    diseaseQuestionAnswer.setAnswer("1");
+                    clickListener("1");
+                });
+
+                no.setOnClickListener(view -> {
+                    diseaseQuestionAnswer.setAnswered(true);
+                    diseaseQuestionAnswer.setAnswer("0");
+                    clickListener("0");
+                });
+
+            } else {
+                //edit text key event listener
+                editTextAns.getEditText().setOnEditorActionListener((textView, i, keyEvent) -> {
+
+                    if (i == EditorInfo.IME_ACTION_NEXT) {
+                        hideKeyboardFrom(context, editTextAns);
+                        clickListener(editTextAns.getEditText().getText().toString());
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        }
+
+        private void clickListener(String s) {
+            int pos = getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                if (diseaseAnswerItemClickListener != null) {
+                    diseaseAnswerItemClickListener.onAnswerChange(pos, s);
+                }
+            }
+
         }
     }
 }

@@ -8,10 +8,11 @@ public class DiseaseQuestionAnswer {
     private boolean isAnswered;
     private String answer;
 
-    public DiseaseQuestionAnswer(Question question, List<String> answers, boolean isAnswered) {
+    public DiseaseQuestionAnswer(Question question, List<String> answers, boolean isAnswered, String answer) {
         this.question = question;
         this.answers = answers;
         this.isAnswered = isAnswered;
+        this.answer = answer;
     }
 
     public Question getQuestion() {
