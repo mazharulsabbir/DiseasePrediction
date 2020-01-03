@@ -55,8 +55,6 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
 
     private DiseaseAnswerListAdapter diseaseAnswerListAdapter;
 
-    private Toast toast;
-
     private CompositeDisposable disposable = new CompositeDisposable();
 
     public static DiseaseQuestionsFragment newInstance(Disease disease) {
@@ -78,7 +76,6 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
             disease = getArguments().getParcelable(Utils.DISEASE_NAME);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -150,6 +147,8 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
     public void onAnswerChange(int p, String s, String type) {
         Log.d(TAG, "onAnswerChange: Position: " + p + ", Value: " + s);
 
+        scrollTo(p);
+
         if (!s.isEmpty()) {
             diseaseQuestionAnswerList.get(p).setAnswered(true);
             diseaseQuestionAnswerList.get(p).setAnswer(s);
@@ -168,16 +167,20 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
                 break;
             }
 
-            builder.append(diseaseQuestionAnswerList.get(i).isAnswered()).append(i).append("\n");
+            builder.append(diseaseQuestionAnswerList.get(i).isAnswered()).append(i).append(": ").append(s).append("\n");
         }
 
-        if (toast != null)
-            toast.cancel();
+        Log.d(TAG, "onAnswerChange: " + builder.toString());
 
         if (valid) {
             submitAnswer.setVisibility(View.VISIBLE);
         } else submitAnswer.setVisibility(View.GONE);
 
+    }
+
+    private void scrollTo(int p) {
+        p+=1;
+        recyclerView.smoothScrollToPosition(p);
     }
 
     private void submitResult() {
