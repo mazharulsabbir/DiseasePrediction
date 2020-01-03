@@ -171,6 +171,9 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
         if (!s.isEmpty()) {
             diseaseQuestionAnswer.setAnswer(s);
             diseaseQuestionAnswer.setAnswered(true);
+        } else {
+            diseaseQuestionAnswer.setAnswer("");
+            diseaseQuestionAnswer.setAnswered(false);
         }
     }
 }

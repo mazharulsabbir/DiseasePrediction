@@ -153,6 +153,9 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
         if (!s.isEmpty()) {
             diseaseQuestionAnswerList.get(p).setAnswered(true);
             diseaseQuestionAnswerList.get(p).setAnswer(s);
+        } else {
+            diseaseQuestionAnswerList.get(p).setAnswered(false);
+            diseaseQuestionAnswerList.get(p).setAnswer("");
         }
 
         boolean valid = true;
