@@ -35,6 +35,10 @@ import java.util.logging.Logger;
 import school.of.thought.R;
 import school.of.thought.fragments.disease.DiseaseFragment;
 import school.of.thought.fragments.doctors.DoctorListFragment;
+import school.of.thought.fragments.donor_receiver.ApplierListFragment;
+import school.of.thought.fragments.donor_receiver.DonorListFragment;
+import school.of.thought.fragments.donor_receiver.PeerToPeerDonorReceiverListFragment;
+import school.of.thought.fragments.donor_receiver.ReceiverListFragment;
 import school.of.thought.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.donate).setOnClickListener(view -> {
             if (user != null) {
-                //todo: open donation activity for donate us
+                startActivity(new Intent(getApplicationContext(), DonateActivity.class));
             } else {
                 Intent intent = new Intent(this, LoginRegistrationHolder.class);
                 startActivity(intent);
@@ -140,14 +144,62 @@ public class MainActivity extends AppCompatActivity {
                     openFragment(new DiseaseFragment());
                     break;
 
-                case R.id.doctor_registration:
-                    startActivity(new Intent(getApplicationContext(), DoctorRegistration.class));
+                case R.id.peer_to_peer_donor_receiver_list:
+                    openFragment(new PeerToPeerDonorReceiverListFragment());
+                    break;
+
+                case R.id.donor_list:
+                    openFragment(new DonorListFragment());
+                    break;
+
+                case R.id.receiver_list:
+                    openFragment(new ReceiverListFragment());
                     break;
 
                 case R.id.doctor_list:
                     openFragment(new DoctorListFragment());
                     break;
 
+                case R.id.applier_list:
+                    openFragment(new ApplierListFragment());
+                    break;
+
+                case R.id.donate:
+                    if (user != null) {
+                        startActivity(new Intent(getApplicationContext(), DonateActivity.class));
+                    } else {
+                        Intent intent = new Intent(this, LoginRegistrationHolder.class);
+                        startActivity(intent);
+                    }
+                    break;
+
+                case R.id.apply_for_scholarship:
+                    Intent intent = new Intent(getApplicationContext(), ApplyHolderActivity.class);
+                    intent.putExtra(Utils.APPLY_FOR, Utils.FRAGMENT_APPLY_FOR_SCHOLARSHIP);
+                    startActivity(intent);
+                    break;
+
+                case R.id.apply_for_help:
+                    intent = new Intent(getApplicationContext(), ApplyHolderActivity.class);
+                    intent.putExtra(Utils.APPLY_FOR, Utils.FRAGMENT_APPLY_FOR_HELP);
+                    startActivity(intent);
+                    break;
+
+                case R.id.profile:
+                    intent = new Intent(getApplicationContext(), ProfileAboutHolderActivity.class);
+                    intent.putExtra(Utils.PROFILE_OR_ABOUT, 0);
+                    startActivity(intent);
+                    break;
+
+                case R.id.about_us:
+                    intent = new Intent(getApplicationContext(), ProfileAboutHolderActivity.class);
+                    intent.putExtra(Utils.PROFILE_OR_ABOUT, 1);
+                    startActivity(intent);
+                    break;
+
+                case R.id.doctor_registration:
+                    startActivity(new Intent(getApplicationContext(), DoctorRegistration.class));
+                    break;
             }
 
             drawer.closeDrawer(GravityCompat.START);

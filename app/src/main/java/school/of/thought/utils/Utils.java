@@ -23,6 +23,10 @@ public interface Utils {
     String TYPE_RADIO_GROUP = "radio_button";
     String TYPE_TEXT = "text";
     String DENGUE = "dengue_result";
+    String APPLY_FOR = "apply_for";
+    int FRAGMENT_APPLY_FOR_SCHOLARSHIP = 0;
+    int FRAGMENT_APPLY_FOR_HELP = 1;
+    String PROFILE_OR_ABOUT = "profile_about";
 
     static String getUserInfoReference(FirebaseUser user) {
         return "users/" + user.getUid() + "/";
