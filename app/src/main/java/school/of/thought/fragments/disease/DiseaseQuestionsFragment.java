@@ -217,7 +217,7 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(this::showResult, this::showException)
             );
-        } catch (Exception e) {
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
