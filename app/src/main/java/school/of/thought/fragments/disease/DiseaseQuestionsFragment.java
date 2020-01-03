@@ -23,14 +23,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 import school.of.thought.R;
 import school.of.thought.adapter.DiseaseAnswerListAdapter;
 import school.of.thought.model.Disease;
 import school.of.thought.model.DiseaseQuestionAnswer;
 import school.of.thought.model.Question;
+import school.of.thought.model.Response;
+import school.of.thought.utils.DiseaseAPI;
 import school.of.thought.utils.DiseaseAnswerItemClickListener;
+import school.of.thought.utils.RetrofitClient;
 import school.of.thought.utils.Utils;
 
 
@@ -46,6 +55,8 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
     private DiseaseAnswerListAdapter diseaseAnswerListAdapter;
 
     private Toast toast;
+
+    private CompositeDisposable disposable = new CompositeDisposable();
 
     public static DiseaseQuestionsFragment newInstance(Disease disease) {
         DiseaseQuestionsFragment fragment = new DiseaseQuestionsFragment();
@@ -86,14 +97,9 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
             diseaseDesc.setText(disease.getDescription());
         }
 
-        submitAnswer.setOnClickListener(v -> {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < diseaseQuestionAnswerList.size(); i++) {
-                stringBuilder.append(diseaseQuestionAnswerList.get(i).getAnswer()).append("\n");
-            }
-
-            Toast.makeText(getContext(), stringBuilder.toString(), Toast.LENGTH_SHORT).show();
-        });
+        submitAnswer.setOnClickListener(
+                view1 -> submitResult()
+        );
 
         recyclerView = view.findViewById(R.id.ques_list_with_ans);
 
@@ -164,11 +170,64 @@ public class DiseaseQuestionsFragment extends Fragment implements DiseaseAnswerI
         if (toast != null)
             toast.cancel();
 
-        toast = Toast.makeText(getContext(), builder.toString(), Toast.LENGTH_LONG);
-        toast.show();
-
         if (valid) {
             submitAnswer.setVisibility(View.VISIBLE);
         } else submitAnswer.setVisibility(View.GONE);
+    }
+
+    private void submitResult() {
+
+        Retrofit client = RetrofitClient.get();
+        DiseaseAPI diseaseAPI = client.create(DiseaseAPI.class);
+
+        Map<String, String> post = new HashMap<>();
+        post.put("age", diseaseQuestionAnswerList.get(0).getAnswer());
+        post.put("gender", diseaseQuestionAnswerList.get(5).getAnswer());
+        post.put("days", diseaseQuestionAnswerList.get(4).getAnswer());
+        post.put("high_fever", diseaseQuestionAnswerList.get(6).getAnswer());
+        post.put("rash", diseaseQuestionAnswerList.get(7).getAnswer());
+        post.put("muscle_pain", diseaseQuestionAnswerList.get(8).getAnswer());
+        post.put("joint_pain", diseaseQuestionAnswerList.get(9).getAnswer());
+        post.put("blooding", diseaseQuestionAnswerList.get(10).getAnswer());
+        post.put("vomiting", diseaseQuestionAnswerList.get(11).getAnswer());
+        post.put("Severe_headache", diseaseQuestionAnswerList.get(1).getAnswer());
+        post.put("pain_behind_eyes", diseaseQuestionAnswerList.get(2).getAnswer());
+        post.put("swollen_gland", diseaseQuestionAnswerList.get(3).getAnswer());
+
+        Response response = new Response(
+                post.get("age"),
+                post.get("gender"),
+                post.get("days"),
+                post.get("high_fever"),
+                post.get("rash"),
+                post.get("muscle_pain"),
+                post.get("joint_pain"),
+                post.get("blooding"),
+                post.get("vomiting"),
+                post.get("Severe_headache"),
+                post.get("pain_behind_eyes"),
+                post.get("swollen_gland")
+        );
+
+        disposable.add(
+                diseaseAPI.answer(response).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::showResult, this::showException)
+        );
+    }
+
+    private void showResult(Response response) {
+        Toast.makeText(getContext(), String.valueOf(response.getDengue()), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showException(Throwable t) {
+        Log.e(TAG, "submitResult: ", t);
+        Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.clear();
     }
 }
