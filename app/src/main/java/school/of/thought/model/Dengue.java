@@ -1,9 +1,12 @@
 package school.of.thought.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Response {
+public class Dengue implements Parcelable {
     @SerializedName("Severe_headache")
     @Expose
     private String severeHeadache;
@@ -44,7 +47,7 @@ public class Response {
     @Expose
     private String vomiting;
 
-    public Response(String severeHeadache, String age, String blooding, String days, String gender, String highFever, String jointPain, String musclePain, String painBehindEyes, String rash, String swollenGland, String vomiting) {
+    public Dengue(String severeHeadache, String age, String blooding, String days, String gender, String highFever, String jointPain, String musclePain, String painBehindEyes, String rash, String swollenGland, String vomiting) {
         this.severeHeadache = severeHeadache;
         this.age = age;
         this.blooding = blooding;
@@ -59,6 +62,34 @@ public class Response {
         this.vomiting = vomiting;
     }
 
+
+    protected Dengue(Parcel in) {
+        severeHeadache = in.readString();
+        age = in.readString();
+        blooding = in.readString();
+        days = in.readString();
+        dengue = in.readString();
+        gender = in.readString();
+        highFever = in.readString();
+        jointPain = in.readString();
+        musclePain = in.readString();
+        painBehindEyes = in.readString();
+        rash = in.readString();
+        swollenGland = in.readString();
+        vomiting = in.readString();
+    }
+
+    public static final Creator<Dengue> CREATOR = new Creator<Dengue>() {
+        @Override
+        public Dengue createFromParcel(Parcel in) {
+            return new Dengue(in);
+        }
+
+        @Override
+        public Dengue[] newArray(int size) {
+            return new Dengue[size];
+        }
+    };
 
     public String getSevereHeadache() {
         return severeHeadache;
@@ -162,5 +193,27 @@ public class Response {
 
     public void setVomiting(String vomiting) {
         this.vomiting = vomiting;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(severeHeadache);
+        parcel.writeString(age);
+        parcel.writeString(blooding);
+        parcel.writeString(days);
+        parcel.writeString(dengue);
+        parcel.writeString(gender);
+        parcel.writeString(highFever);
+        parcel.writeString(jointPain);
+        parcel.writeString(musclePain);
+        parcel.writeString(painBehindEyes);
+        parcel.writeString(rash);
+        parcel.writeString(swollenGland);
+        parcel.writeString(vomiting);
     }
 }

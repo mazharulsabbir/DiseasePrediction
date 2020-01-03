@@ -22,6 +22,7 @@ public interface Utils {
     String TYPE_DROPDOWN = "dropdown";
     String TYPE_RADIO_GROUP = "radio_button";
     String TYPE_TEXT = "text";
+    String DENGUE = "dengue_result";
 
     static String getUserInfoReference(FirebaseUser user) {
         return "users/" + user.getUid() + "/";

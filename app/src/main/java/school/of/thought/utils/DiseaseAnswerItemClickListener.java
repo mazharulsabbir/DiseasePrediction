@@ -1,9 +1,5 @@
 package school.of.thought.utils;
 
-import java.util.List;
-
-import school.of.thought.model.DiseaseQuestionAnswer;
-
 public interface DiseaseAnswerItemClickListener {
-    void onAnswerChange(int pos, String s);
+    void onAnswerChange(int pos, String s, String type);
 }

@@ -5,7 +5,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import school.of.thought.R;
 import school.of.thought.fragments.disease.DiseaseQuestionsFragment;
@@ -32,17 +32,37 @@ public class DiseaseQuestionsAnswering extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, DiseaseQuestionsFragment
-                            .newInstance(disease)
-                    )
+                            .newInstance(disease))
                     .commit();
         }
     }
 
+    public void openFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            finish();
+        if (item.getItemId() == android.R.id.home) {
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
