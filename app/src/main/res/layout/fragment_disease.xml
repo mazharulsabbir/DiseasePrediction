@@ -5,4 +5,6 @@
     android:layout_height="match_parent"
     android:id="@+id/disease_recycler_view"
     tools:listitem="@layout/item_disease"
+    android:paddingBottom="100dp"
+    android:clipToPadding="false"
     tools:context=".fragments.disease.DiseaseFragment"/>

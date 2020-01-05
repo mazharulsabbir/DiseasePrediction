@@ -90,12 +90,10 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             newArea.setText(doctor.special_area);
             area.addView(newArea);
 
-            if (doctor.getImage() != null) {
-                Glide.with(context).load(doctor.getImage()).circleCrop().into(image);
-            } else {
-                Glide.with(context).load(R.drawable.doctoricon).circleCrop().into(image);
+            Glide.with(context).load(doctor.getImage())
+                    .error(R.drawable.doctoricon)
+                    .circleCrop().into(image);
 
-            }
             StringBuilder chambers = new StringBuilder();
             if (!doctor.chamber_list.isEmpty())
                 for (int i = 0; i < doctor.chamber_list.size(); i++) {
