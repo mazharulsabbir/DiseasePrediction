@@ -79,6 +79,7 @@
             android:drawableStart="@drawable/ic_local_hospital_black_24dp"
             android:text="Chambers"
             android:textColor="?white"
+            android:drawablePadding="@dimen/layout_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/special_area_chips" />
@@ -108,11 +109,10 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
             android:text="Appointment"
             android:textColor="?white"
             app:cornerRadius="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/chambers"
             app:layout_constraintTop_toBottomOf="@id/view2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

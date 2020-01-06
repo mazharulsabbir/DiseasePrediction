@@ -16,16 +16,52 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <TextView
-                android:id="@+id/result"
-                android:textColor="?white"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:background="@drawable/shape_round"
-                android:gravity="center"
-                android:text="Positive"
-                android:textSize="24sp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/result"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/shape_round"
+                    android:gravity="center"
+                    android:text="Positive"
+                    android:textColor="?white"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dear X,"
+                    android:textColor="?white"
+                    android:textSize="@dimen/heading_text_size_h5"
+                    app:layout_constraintBottom_toTopOf="@id/guideline"
+                    app:layout_constraintStart_toEndOf="@+id/result" />
+
+                <TextView
+                    android:id="@+id/probability_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Probability Result"
+                    android:textColor="?white"
+                    app:layout_constraintStart_toStartOf="@+id/user_name"
+                    app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.5" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,15 +75,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <View
+                android:background="@color/colorGray"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_margin"
-                android:layout_marginTop="@dimen/layout_margin"
-                android:layout_marginBottom="@dimen/layout_margin"
-                android:text="Suggested Doctors"
-                android:textColor="?white"
-                android:textSize="@dimen/heading_text_size_h5" />
+                app:menu="@menu/menu_main_activity"
+                app:title="Suggested Doctors"
+                app:titleTextColor="?white" />
+
+            <View
+                android:background="@color/colorGray"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
