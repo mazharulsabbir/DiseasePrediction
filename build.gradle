@@ -5,6 +5,9 @@ buildscript {
         glide_version = '4.10.0'
         material_version = '1.2.0-alpha02'
         gradle_version = '3.5.3' //3.5.2
+        rx_java2_android = '2.1.1'
+        rx_java2_java = '2.2.15'
+        retrofit_version='2.5.0'
     }
 
     repositories {

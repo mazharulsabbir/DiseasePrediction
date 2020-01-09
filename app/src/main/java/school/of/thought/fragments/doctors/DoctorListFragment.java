@@ -2,6 +2,7 @@ package school.of.thought.fragments.doctors;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +23,13 @@ import java.util.List;
 
 import school.of.thought.R;
 import school.of.thought.adapter.DoctorListAdapter;
-import school.of.thought.model.DoctorChamberListModel;
 import school.of.thought.model.DoctorRegistrationModel;
 import school.of.thought.utils.Utils;
 
 
 public class DoctorListFragment extends Fragment {
-
-
+    private static final String TAG = "DoctorListFragment";
     private View rootView;
-    private RecyclerView recyclerView;
-    private List<DoctorRegistrationModel> doctorDetails = new ArrayList<>();
-    private List<DoctorChamberListModel> doctorChamber;
-
-
-    public DoctorListFragment() {
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,17 +37,19 @@ public class DoctorListFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_doctor_list, container, false);
 
-        recyclerView = rootView.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         initializeData();
-
 
         return rootView;
     }
 
     private void initializeData() {
+        RecyclerView recyclerView;
+        List<DoctorRegistrationModel> doctorDetails = new ArrayList<>();
+
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Utils.DOCTORS_REF);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,7 +70,7 @@ public class DoctorListFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e(TAG, "onCancelled: ", databaseError.toException());
             }
         });
     }

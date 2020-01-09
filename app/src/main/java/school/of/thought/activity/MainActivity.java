@@ -1,15 +1,16 @@
 package school.of.thought.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.MediaController;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -19,28 +20,32 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import school.of.thought.R;
-import school.of.thought.adapter.DiseaseListAdapter;
-import school.of.thought.model.Disease;
+import school.of.thought.fragments.disease.DiseaseFragment;
+import school.of.thought.fragments.doctors.DoctorListFragment;
+import school.of.thought.fragments.donor_receiver.ApplierListFragment;
+import school.of.thought.fragments.donor_receiver.DonorListFragment;
+import school.of.thought.fragments.donor_receiver.PeerToPeerDonorReceiverListFragment;
+import school.of.thought.fragments.donor_receiver.ReceiverListFragment;
 import school.of.thought.utils.Utils;
 
-public class MainActivity extends AppCompatActivity implements DiseaseListAdapter.onDiseasesListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
     private boolean isDarkTheme;
-    private List<Disease> diseases = new ArrayList<>();
     private VideoView videoView;
     private Switch checkTheme;
 
@@ -56,9 +61,13 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
 
         init();
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new DiseaseFragment()).commit();
+        }
+
         findViewById(R.id.donate).setOnClickListener(view -> {
             if (user != null) {
-                //todo: open donation activity for donate us
+                startActivity(new Intent(getApplicationContext(), DonateActivity.class));
             } else {
                 Intent intent = new Intent(this, LoginRegistrationHolder.class);
                 startActivity(intent);
@@ -66,7 +75,9 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void initNavigationDrawer() {
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -77,12 +88,46 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
 
         NavigationView nav = findViewById(R.id.nav_view);
 
+        View navHeaderView = nav.getHeaderView(0);
+
+        ImageView avatar = navHeaderView.findViewById(R.id.nav_header_avatar);
+        TextView name = navHeaderView.findViewById(R.id.nav_header_name);
+        TextView mobile = navHeaderView.findViewById(R.id.nav_header_mobile);
+        MaterialButton loginLogout = navHeaderView.findViewById(R.id.login_logout);
+
+        if (user != null) {
+            if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
+                name.setText("User");
+            } else name.setText(user.getDisplayName());
+
+            mobile.setText(user.getPhoneNumber());
+
+            Glide.with(this).load(Utils.COMMON_USER_AVATAR_URL).circleCrop().into(avatar);
+
+            loginLogout.setText("Logout");
+            loginLogout.setOnClickListener(view -> {
+                FirebaseAuth.getInstance().signOut();
+                recreate();
+            });
+        } else {
+            loginLogout.setText("Login");
+            loginLogout.setOnClickListener(view -> {
+                Intent intent = new Intent(getApplicationContext(), LoginRegistrationHolder.class);
+                startActivity(intent);
+            });
+        }
+
         Menu menu_nav = nav.getMenu();
         MenuItem menuItem = menu_nav.findItem(R.id.app_bar_switch_theme);
         checkTheme = menuItem.getActionView().findViewById(R.id.switch_theme);
 
         if (isDarkTheme) checkTheme.setChecked(false);
         else checkTheme.setChecked(true);
+
+        //add listener
+        checkTheme.setOnCheckedChangeListener((buttonView, isChecked) ->
+                changeTheme()
+        );
 
         nav.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -93,48 +138,87 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
                     else checkTheme.setChecked(true);
 
                     changeTheme();
-                    return true;
+                    break;
 
-                case R.id.login_logout:
+                case R.id.disease_list:
+                    openFragment(new DiseaseFragment());
+                    break;
+
+                case R.id.peer_to_peer_donor_receiver_list:
+                    openFragment(new PeerToPeerDonorReceiverListFragment());
+                    break;
+
+                case R.id.donor_list:
+                    openFragment(new DonorListFragment());
+                    break;
+
+                case R.id.receiver_list:
+                    openFragment(new ReceiverListFragment());
+                    break;
+
+                case R.id.doctor_list:
+                    openFragment(new DoctorListFragment());
+                    break;
+
+                case R.id.applier_list:
+                    openFragment(new ApplierListFragment());
+                    break;
+
+                case R.id.donate:
                     if (user != null) {
-                        FirebaseAuth.getInstance().signOut();
-                        recreate();
+                        startActivity(new Intent(getApplicationContext(), DonateActivity.class));
                     } else {
-                        startActivity(new Intent(getApplicationContext(), LoginRegistrationHolder.class));
+                        Intent intent = new Intent(this, LoginRegistrationHolder.class);
+                        startActivity(intent);
                     }
-                    return true;
+                    break;
+
+                case R.id.apply_for_scholarship:
+                    Intent intent = new Intent(getApplicationContext(), ApplyHolderActivity.class);
+                    intent.putExtra(Utils.APPLY_FOR, Utils.FRAGMENT_APPLY_FOR_SCHOLARSHIP);
+                    startActivity(intent);
+                    break;
+
+                case R.id.apply_for_help:
+                    intent = new Intent(getApplicationContext(), ApplyHolderActivity.class);
+                    intent.putExtra(Utils.APPLY_FOR, Utils.FRAGMENT_APPLY_FOR_HELP);
+                    startActivity(intent);
+                    break;
+
+                case R.id.profile:
+                    intent = new Intent(getApplicationContext(), ProfileAboutHolderActivity.class);
+                    intent.putExtra(Utils.PROFILE_OR_ABOUT, 0);
+                    startActivity(intent);
+                    break;
+
+                case R.id.about_us:
+                    intent = new Intent(getApplicationContext(), ProfileAboutHolderActivity.class);
+                    intent.putExtra(Utils.PROFILE_OR_ABOUT, 1);
+                    startActivity(intent);
+                    break;
+
                 case R.id.doctor_registration:
                     startActivity(new Intent(getApplicationContext(), DoctorRegistration.class));
-                    return true;
-
-                    case R.id.doctor_list:
-                    startActivity(new Intent(getApplicationContext(), DoctorsFragmentsHolder.class));
-                    return true;
-
+                    break;
             }
 
             drawer.closeDrawer(GravityCompat.START);
             return true;
         });
+    }
 
-        //add listener
-        checkTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            //your action
-            changeTheme();
-        });
+    private void openFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.fragment_container,
+                fragment).commit();
+
+        fragmentManager.executePendingTransactions();
     }
 
     private void init() {
-        initDummyData();
-
-        RecyclerView recyclerView = findViewById(R.id.disease_recycler_view);
-        DiseaseListAdapter diseaseListAdapter = new DiseaseListAdapter(diseases, this, getApplicationContext());
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-        recyclerView.setAdapter(diseaseListAdapter);
-
         videoView = findViewById(R.id.video);
         String uri = "https://firebasestorage.googleapis.com/v0/b/wireless-project-in-lab.appspot.com/o/Backstreet%20Boys%20-%20Show%20Me%20The%20Meaning%20Of%20Being%20Lonely_HIGH.mp4?alt=media&token=895ae878-58d4-4f8c-8cee-9b75ea03c1a4";
 
@@ -154,14 +238,6 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
 
         ProgressBar progressBar = findViewById(R.id.loading_video);
         progressBar.setVisibility(View.GONE);
-    }
-
-    private void initDummyData() {
-        String desc = "Dengue fever is a disease caused by a family of viruses transmitted by Aedes mosquitoes. Symptoms of dengue fever include severe joint and muscle pain, swollen lymph nodes, headache, fever, exhaustion, and rash";
-
-        for (int i = 0; i < 40; i++) {
-            diseases.add(new Disease("", "Dengue", desc));
-        }
     }
 
     private void initCurrentTheme() {
@@ -184,17 +260,7 @@ public class MainActivity extends AppCompatActivity implements DiseaseListAdapte
             editor.apply();
         }
 
-        recreate();
-    }
-
-    @Override
-    public void onDiseasesClick(int position) {
-        if (user != null) {
-
-        } else {
-            Intent intent = new Intent(this, LoginRegistrationHolder.class);
-            startActivity(intent);
-        }
+        initCurrentTheme();
     }
 
     @Override

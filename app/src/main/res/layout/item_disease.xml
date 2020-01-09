@@ -3,10 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/card_margin_start_end"
-    android:layout_marginTop="@dimen/card_margin_top_bottom"
-    android:layout_marginEnd="@dimen/card_margin_start_end"
-    android:layout_marginBottom="@dimen/card_margin_top_bottom"
+    android:layout_margin="1dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
@@ -18,38 +15,42 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:background="@drawable/shape_rectangle"
             android:id="@+id/doctor_image"
             android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:textColor="?text_view_text_color_white"
             android:id="@+id/doctor_name"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:text="Disease Name"
+            android:textColor="?text_view_text_color_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/doctor_image"
             app:layout_constraintTop_toTopOf="@+id/doctor_image" />
 
         <TextView
-            android:textColor="?colorAccent"
             android:id="@+id/disease_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
-            android:maxLines="5"
+            android:maxLines="3"
             android:text="Disease Desc"
+            android:textColor="?white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/doctor_name"
             app:layout_constraintTop_toBottomOf="@+id/doctor_name" />

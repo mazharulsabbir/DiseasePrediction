@@ -2,9 +2,9 @@
 <resources>
     <color name="colorPrimary">#034a95</color>
     <color name="colorPrimaryDark">#002466</color>
-    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorAccent">#B9B0AF</color>
     <color name="ornage_primary">#F9690E</color>
-    <color name="white">#FFFFFF</color>
+    <color name="white">#ffffff</color>
     <color name="transparent_black">#73000000</color>
     <color name="dark_blue">#034e9e</color>
     <color name="them_color">#034e9e</color>
@@ -15,6 +15,8 @@
     <color name="btn_text_color_white">#FFFFFF</color>
     <color name="text_view_text_color_white">#FFFFFF</color>
     <color name="themeColor">#11CFC5</color>
+    <color name="colorTransparent">#1AFFFFFF</color>
+    <color name="colorGray">#C0C0C0</color>
 
     <!--normal colors-->
     <color name="darkTextColor">#020000</color>

@@ -1,6 +1,7 @@
 package school.of.thought.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 
 import java.util.List;
 
 import school.of.thought.R;
 import school.of.thought.model.Disease;
+import school.of.thought.utils.OnItemClickListener;
 
 public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.DiseaseHolder> {
     private List<Disease> diseaseList;
     private Context context;
-    onDiseasesListener mOnDiseasesListener;
+    private OnItemClickListener onItemClickListener;
 
-    public DiseaseListAdapter(List<Disease> diseaseList, onDiseasesListener onDiseasesListener, Context context) {
+    public DiseaseListAdapter(List<Disease> diseaseList, Context context) {
         this.diseaseList = diseaseList;
-        this.mOnDiseasesListener = onDiseasesListener;
-        this.context=context;
+        this.context = context;
     }
 
     @NonNull
@@ -34,11 +36,7 @@ public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_disease, parent, false);
-        /*if (viewType == ITEM_POSITION_ODD)
-            return new DiseaseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_disease, parent, false));
-        else
-            return new DiseaseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_disease, parent, false));*/
-        return new DiseaseHolder(itemView,mOnDiseasesListener);
+        return new DiseaseHolder(itemView);
     }
 
     @Override
@@ -46,11 +44,17 @@ public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.
         Disease disease = diseaseList.get(position);
 
         holder.name.setText(disease.getName());
-        holder.shortDesc.setText(disease.getShortDesc());
+        holder.shortDesc.setText(disease.getDescription());
 
-        if (disease.getImageUrl().isEmpty())
-            Glide.with(context).load(R.drawable.ic_launcher_background).into(holder.image);
-        else Glide.with(context).load(disease.getImageUrl()).into(holder.image);
+        if (disease.getImage().isEmpty())
+            Glide.with(context).load(R.drawable.ic_launcher_background)
+                    .error(R.drawable.error)
+                    .into(holder.image);
+        else Glide.with(context).load(disease.getImage()).into(holder.image);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.image.setClipToOutline(true);
+        }
 
     }
 
@@ -60,30 +64,32 @@ public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.
         return diseaseList.size();
     }
 
-    public interface onDiseasesListener{
-        void onDiseasesClick(int position);
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
-
-
-    public class DiseaseHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class DiseaseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView image;
         private TextView name;
         private TextView shortDesc;
-        onDiseasesListener onDiseasesListener;
-        public DiseaseHolder(@NonNull View itemView ,onDiseasesListener onDiseasesListener) {
+
+        public DiseaseHolder(@NonNull View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.doctor_image);
             name = itemView.findViewById(R.id.doctor_name);
             shortDesc = itemView.findViewById(R.id.disease_desc);
-            this.onDiseasesListener=onDiseasesListener;
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            onDiseasesListener.onDiseasesClick(getAdapterPosition());
+            int pos = getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(pos);
+                }
+            }
         }
     }
 }

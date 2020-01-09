@@ -1,19 +1,21 @@
 package school.of.thought.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.List;
 
@@ -40,33 +42,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
     @Override
     public void onBindViewHolder(@NonNull DoctorHolder holder, int position) {
         DoctorRegistrationModel helper = doctorDetails.get(position);
-        holder.name.setText(helper.getName());
-        holder.designation.setText(helper.getDrsignation());
-        holder.area.setText(helper.getSpecial_area());
-
-        if (helper.getImage()!=null)
-        {
-            Glide.with(context).load(helper.getImage()).circleCrop().into(holder.image);
-        }else {
-            Glide.with(context).load(R.drawable.doctoricon).circleCrop().into(holder.image);
-
-        }
-        StringBuilder chambers = new StringBuilder();
-        if (!helper.chamber_list.isEmpty())
-            for (int i = 0; i < helper.chamber_list.size(); i++) {
-                chambers.append(helper.chamber_list.get(i).chamber_name).append("\n");
-            }
-        holder.chamber.setText(chambers.toString());
-
-        //appoinment button click
-        holder.appoinment.setOnClickListener(v -> {
-
-        });
-
-        //cardview clik
-        holder.cardview.setOnClickListener(v -> {
-
-        });
+        holder.bind(helper);
     }
 
     @Override
@@ -75,23 +51,59 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
         return doctorDetails.size();
     }
 
-    public class DoctorHolder extends RecyclerView.ViewHolder {
+    class DoctorHolder extends RecyclerView.ViewHolder {
         private ImageView image;
         private TextView name;
-        private TextView designation, area, chamber;
-        private Button appoinment;
-        private CardView cardview;
+        private TextView designation, chamber;
+        private ChipGroup area;
+        private MaterialButton appointment, details;
 
-        public DoctorHolder(@NonNull View itemView) {
+        private DoctorHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.doctor_image);
             name = itemView.findViewById(R.id.doctor_name);
             designation = itemView.findViewById(R.id.doctor_designation);
-            area = itemView.findViewById(R.id.doctor_area);
-            chamber = itemView.findViewById(R.id.doctor_chamber);
-            appoinment = itemView.findViewById(R.id.appoinmentButton);
-            cardview = itemView.findViewById(R.id.cardview);
+            area = itemView.findViewById(R.id.special_area_chips);
+            chamber = itemView.findViewById(R.id.chambers);
+            appointment = itemView.findViewById(R.id.doctor_appointment);
+            details = itemView.findViewById(R.id.doctor_details);
 
+            itemView.setOnClickListener(view -> {
+
+            });
+
+            //appointment button click
+            appointment.setOnClickListener(v -> {
+
+            });
+
+            //cardview clik
+            details.setOnClickListener(v -> {
+
+            });
+        }
+
+        private void bind(DoctorRegistrationModel doctor) {
+            name.setText(doctor.getName());
+            designation.setText(doctor.getDrsignation());
+            Chip newArea = new Chip(area.getContext());
+
+            newArea.setText(doctor.special_area);
+            area.addView(newArea);
+
+            Glide.with(context).load(doctor.getImage())
+                    .error(R.drawable.doctoricon)
+                    .circleCrop().into(image);
+
+            StringBuilder chambers = new StringBuilder();
+            if (!doctor.chamber_list.isEmpty())
+                for (int i = 0; i < doctor.chamber_list.size(); i++) {
+                    chambers.append(doctor.chamber_list.get(i).chamber_name);
+
+                    if (i < doctor.chamber_list.size() - 1)
+                        chambers.append(", ");
+                }
+            chamber.setText(chambers.toString());
         }
     }
 }

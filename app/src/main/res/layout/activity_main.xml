@@ -14,10 +14,11 @@
 
         <include layout="@layout/collapsing_toolbar_layout" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/disease_recycler_view"
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_disease"
+            android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,10 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:backgroundTint="@color/white"
             android:focusable="true"
-            app:maxImageSize="60dp"
-            app:fabCustomSize="70dp"
+            app:maxImageSize="50dp"
+            android:backgroundTint="?white"
             android:layout_marginBottom="25dp"
             android:layout_marginRight="25dp"
             android:src="@drawable/favicon" />
