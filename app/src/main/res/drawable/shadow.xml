@@ -36,7 +36,7 @@
                 android:right="3dp"
                 android:top="1dp" />
 
-            <solid android:color="@color/dark_blue" />
+            <solid android:color="?colorPrimaryDark" />
 
             <corners android:radius="3dp" />
         </shape>
@@ -49,7 +49,7 @@
                 android:right="1dp"
                 android:top="1dp" />
 
-            <solid android:color="@color/dark_blue" />
+            <solid android:color="?colorPrimaryDark" />
 
             <corners android:radius="3dp" />
         </shape>
@@ -62,7 +62,7 @@
                 android:right="1dp"
                 android:top="1dp" />
 
-            <solid android:color="@color/white" />
+            <solid android:color="#fff" />
 
             <corners android:radius="3dp" />
         </shape>
@@ -71,7 +71,7 @@
     <!-- Background -->
     <item>
         <shape>
-            <solid android:color="@color/dark_blue" />
+            <solid android:color="?colorPrimaryDark" />
 
             <corners android:radius="1dp" />
         </shape>

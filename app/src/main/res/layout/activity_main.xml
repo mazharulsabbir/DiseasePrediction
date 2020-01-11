@@ -5,7 +5,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorPrimary"
     tools:context=".activity.MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -17,21 +16,19 @@
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            tools:listitem="@layout/item_disease"
             android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:listitem="@layout/item_disease" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/donate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
             android:focusable="true"
-            app:maxImageSize="50dp"
-            android:backgroundTint="?white"
-            android:layout_marginBottom="25dp"
-            android:layout_marginRight="25dp"
-            android:src="@drawable/favicon" />
+            android:src="@drawable/favicon"
+            app:maxImageSize="50dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -39,12 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?colorPrimary"
+        android:background="@color/navigation_drawer_background"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_header"
-        app:itemShapeInsetEnd="0dp"
-        app:itemShapeInsetStart="0dp"
-        app:itemTextColor="?white"
         app:menu="@menu/main" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

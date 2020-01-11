@@ -1,15 +1,16 @@
 package school.of.thought.activity;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -47,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isDarkTheme;
     private VideoView videoView;
-    private Switch checkTheme;
 
+    private View background;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
@@ -94,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
         TextView name = navHeaderView.findViewById(R.id.nav_header_name);
         TextView mobile = navHeaderView.findViewById(R.id.nav_header_mobile);
         MaterialButton loginLogout = navHeaderView.findViewById(R.id.login_logout);
+        ImageButton changeThemeButton = navHeaderView.findViewById(R.id.change_theme);
+
+        changeThemeButton.setOnClickListener(v -> changeTheme());
 
         if (user != null) {
             if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
@@ -117,28 +121,8 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        Menu menu_nav = nav.getMenu();
-        MenuItem menuItem = menu_nav.findItem(R.id.app_bar_switch_theme);
-        checkTheme = menuItem.getActionView().findViewById(R.id.switch_theme);
-
-        if (isDarkTheme) checkTheme.setChecked(false);
-        else checkTheme.setChecked(true);
-
-        //add listener
-        checkTheme.setOnCheckedChangeListener((buttonView, isChecked) ->
-                changeTheme()
-        );
-
         nav.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
-
-                case R.id.app_bar_switch_theme:
-                    if (checkTheme.isChecked())
-                        checkTheme.setChecked(false);
-                    else checkTheme.setChecked(true);
-
-                    changeTheme();
-                    break;
 
                 case R.id.disease_list:
                     openFragment(new DiseaseFragment());
@@ -260,7 +244,56 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        initCurrentTheme();
+        circularRevealAnimation();
+    }
+
+    private void circularRevealAnimation() {
+
+        try {
+            background = findViewById(R.id.drawer_layout);
+
+            int cx = (int) ((background.getX() + background.getWidth()) - ((int) background.getX() / 4));
+            int cy = 16;
+
+            float finalRadius = Math.max(background.getWidth(), background.getHeight());
+
+            @SuppressLint({"NewApi", "LocalSuppress"})
+            Animator circularReveal = ViewAnimationUtils.createCircularReveal(
+                    background,
+                    cx,
+                    cy,
+                    0,
+                    finalRadius);
+
+            circularReveal.setDuration(300);
+            background.setVisibility(View.VISIBLE);
+            circularReveal.start();
+
+            circularReveal.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    initCurrentTheme();
+                    circularReveal.cancel();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

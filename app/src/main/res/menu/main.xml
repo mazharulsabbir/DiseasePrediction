@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
         android:id="@+id/items"
@@ -32,17 +31,13 @@
 
     </group>
 
-    <group
-        android:id="@+id/donation"
-        android:checkableBehavior="single">
+    <group android:id="@+id/donation">
         <item
             android:id="@+id/donate"
             android:title="Donate" />
     </group>
 
-    <group
-        android:id="@+id/scholarship"
-        android:checkableBehavior="single">
+    <group android:id="@+id/scholarship">
 
         <item
             android:id="@+id/apply_for_scholarship"
@@ -55,9 +50,7 @@
             android:title="Doctor Registration" />
     </group>
 
-    <group
-        android:id="@+id/info"
-        android:checkableBehavior="single">
+    <group android:id="@+id/info">
         <item
             android:id="@+id/profile"
             android:title="Profile" />
@@ -66,13 +59,4 @@
             android:id="@+id/about_us"
             android:title="About Us" />
     </group>
-
-    <group android:id="@+id/theme">
-        <item
-            android:id="@+id/app_bar_switch_theme"
-            android:title="Dark Theme"
-            app:actionLayout="@layout/switch_item"
-            app:showAsAction="never" />
-    </group>
-
 </menu>

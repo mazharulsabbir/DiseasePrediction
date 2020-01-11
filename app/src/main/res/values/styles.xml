@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application Light theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -6,19 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="ornage_primary">@color/ornage_primary</item>
-        <item name="white">@color/white</item>
-        <item name="transparent_black">@color/transparent_black</item>
-        <item name="dark_blue">@color/dark_blue</item>
-        <item name="them_color">@color/them_color</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="blue_transparent">@color/blue_transparent</item>
-        <item name="light_blue">@color/light_blue</item>
-        <item name="tv_color_light_blue">@color/tv_color_light_blue</item>
-        <item name="btn_text_color_white">@color/btn_text_color_white</item>
-        <item name="text_view_text_color_white">@color/text_view_text_color_white</item>
-        <item name="colorTransparent">@color/colorTransparent</item>
 
+        <item name="heading_text_color">@color/heading_text_color</item>
+        <item name="divider_color">@color/divider_color</item>
+        <item name="card_background_color">@color/card_background_color</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -29,48 +20,4 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-    <!-- The launcher theme. It sets the main window background to the launch_screen drawable -->
-
-    <!--styles for app-->
-    <!--df dialog-->
-
-    <style name="viewParent">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="viewParent.headerText">
-        <item name="android:textColor">@color/contentTextColor</item>
-        <item name="android:textSize">@dimen/headerTextSize</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="viewParent.headerText.NoMode">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="parent">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="modifiedEditText" parent="parent">
-        <item name="android:textSize">@dimen/newsMoreTextSize</item>
-        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/white</item>
-    </style>
-
-    <style name="loginButton" parent="viewParent">
-        <item name="android:background">@drawable/button_background_blue</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="spinnerHintText" parent="parent">
-        <item name="android:textSize">@dimen/newsMoreTextSize</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:paddingLeft">5dp</item>
-    </style>
-
 </resources>
