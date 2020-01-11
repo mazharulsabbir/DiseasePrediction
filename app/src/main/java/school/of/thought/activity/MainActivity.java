@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         initCurrentTheme();
         setContentView(R.layout.activity_main);
 
+        Logger.getLogger(TAG).warning("onCreate()");
+
         initNavigationDrawer();
 
         init();
@@ -248,12 +250,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void circularRevealAnimation() {
-
         try {
             background = findViewById(R.id.drawer_layout);
 
-            int cx = (int) ((background.getX() + background.getWidth()) - ((int) background.getX() / 4));
-            int cy = 16;
+//            View view = findViewById(R.id.nav_view);
+//
+//            if (isDarkTheme) {
+//                view.setBackgroundColor(Color.parseColor("#2d404f"));
+//                getWindow().getDecorView().setBackgroundColor(Color.parseColor("#2d404f"));
+//            } else {
+//                view.setBackgroundColor(Color.parseColor("#ffffff"));
+//                getWindow().getDecorView().setBackgroundColor(Color.parseColor("#ffffff"));
+//            }
+
+            int cx = background.getRight() - 280;
+            int cy = background.getTop() - 200;
 
             float finalRadius = Math.max(background.getWidth(), background.getHeight());
 
@@ -265,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                     0,
                     finalRadius);
 
-            circularReveal.setDuration(300);
+            circularReveal.setDuration(600);
             background.setVisibility(View.VISIBLE);
             circularReveal.start();
 
@@ -292,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
+            initCurrentTheme();
             e.printStackTrace();
         }
     }
