@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorPrimary"
     tools:context=".fragments.login_registration.two_factor_auth.TwoFactorAuth">
 
     <TextView
@@ -14,8 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:gravity="center"
-        android:text="Verify Your Phone"
-        android:textColor="?text_view_text_color_white" />
+        android:text="Verify Your Phone" />
 
     <LinearLayout
         android:id="@+id/two_factor_code"
@@ -39,7 +37,7 @@
             android:inputType="number"
             android:maxLength="1"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="#ffffff"
             android:textSize="45dp"
             android:textStyle="bold" />
 
@@ -54,7 +52,7 @@
             android:inputType="number"
             android:maxLength="1"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="#ffffff"
             android:textSize="45dp"
             android:textStyle="bold" />
 
@@ -69,7 +67,7 @@
             android:inputType="number"
             android:maxLength="1"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="#ffffff"
             android:textSize="45dp"
             android:textStyle="bold" />
 
@@ -84,7 +82,7 @@
             android:inputType="number"
             android:maxLength="1"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="#ffffff"
             android:textSize="45dp"
             android:textStyle="bold" />
 
@@ -99,7 +97,7 @@
             android:inputType="number"
             android:maxLength="1"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="#ffffff"
             android:textSize="45dp"
             android:textStyle="bold" />
 
@@ -114,7 +112,7 @@
             android:inputType="number"
             android:maxLength="1"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="#ffffff"
             android:textSize="45dp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -127,7 +125,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:text="verifying..."
-        android:textColor="@color/white"
         android:textSize="25dp"
         android:visibility="gone" />
 

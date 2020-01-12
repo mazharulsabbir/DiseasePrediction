@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:contentScrim="?colorPrimary"
+        app:contentScrim="?card_background_color"
         app:expandedTitleGravity="bottom"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
         app:title="@string/app_name"

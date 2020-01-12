@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="?colorPrimary"
     android:focusableInTouchMode="true"
     android:gravity="center"
     tools:context=".fragments.login_registration.Registration">
@@ -28,10 +27,13 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    style="@style/viewParent.headerText.NoMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:text="Here’s\nyour first\nstep with \nus! " />
+                    android:text="Here’s\nyour first\nstep with \nus! "
+                    android:textSize="@dimen/heading_text_size_h5"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -42,91 +44,95 @@
             </RelativeLayout>
 
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/loginViewsMargin">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputName"
-                        app:errorTextColor="?white"
-                        style="@style/parent"
-                        android:layout_marginTop="@dimen/loginViewsMargin">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Name"
+                        android:inputType="textPersonName"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextName"
-                            style="@style/modifiedEditText"
-                            android:hint="Name"
-                            android:inputType="textPersonName"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/loginViewsMargin">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputEmail"
-                        app:errorTextColor="?white"
-                        style="@style/parent"
-                        android:layout_marginTop="@dimen/loginViewsMargin">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/login_email_hint"
+                        android:inputType="textEmailAddress|text"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextEmail"
-                            style="@style/modifiedEditText"
-                            android:hint="@string/login_email_hint"
-                            android:inputType="textEmailAddress|text"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/loginViewsMargin">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputMobile"
-                        app:errorTextColor="?white"
-                        style="@style/parent"
-                        android:layout_marginTop="@dimen/loginViewsMargin">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mobile Number"
+                        android:inputType="phone"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextMobile"
-                            style="@style/modifiedEditText"
-                            android:hint="Mobile Number"
-                            android:inputType="phone"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/loginViewsMargin"
+                    app:passwordToggleEnabled="true">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputPassword"
-                        style="@style/parent"
-                        android:layout_marginTop="@dimen/loginViewsMargin"
-                        app:errorTextColor="?white"
-                        app:passwordToggleEnabled="true">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/login_password_hint"
+                        android:inputType="textPassword"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextPassword"
-                            style="@style/modifiedEditText"
-                            android:hint="@string/login_password_hint"
-                            android:inputType="textPassword"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                    android:id="@+id/cirRegisterButton"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/loginViewsMargin"
+                    android:text="Register"
+                    app:initialCornerAngle="27dp"
+                    app:spinning_bar_padding="6dp"
+                    app:spinning_bar_width="4dp" />
 
-                    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                        android:id="@+id/cirRegisterButton"
-                        style="@style/loginButton"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/loginViewsMargin"
-                        android:text="Register"
-                        app:initialCornerAngle="27dp"
-                        app:spinning_bar_color="#FFF"
-                        app:spinning_bar_padding="6dp"
-                        app:spinning_bar_width="4dp" />
+                <TextView
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/loginViewsMargin"
+                    android:text="Already have an account?"
+                    android:textAlignment="center"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/login"
-                        style="@style/parent"
-                        android:layout_marginTop="@dimen/loginViewsMargin"
-                        android:text="Already have an account?"
-                        android:textAlignment="center"
-                        android:textColor="@color/themeColor"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -139,23 +145,21 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="3"
-                    android:background="@color/white" />
+                    android:background="?divider_color" />
 
                 <TextView
-                    style="@style/viewParent.headerText.NoMode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
                     android:text="Use other Methods"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
                     android:textSize="12sp" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="3"
-                    android:background="@color/white" />
+                    android:background="?divider_color" />
 
             </LinearLayout>
 

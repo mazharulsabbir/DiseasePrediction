@@ -2,58 +2,62 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?colorTransparent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:padding="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
+
         <ImageView
             android:id="@+id/nav_header_avatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/ic_launcher" />
 
-        <LinearLayout
-            android:layout_gravity="top"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/nav_header_name"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="User Name" />
 
-            <TextView
-                android:textColor="?text_view_text_color_white"
-                android:id="@+id/nav_header_name"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"/>
-
-            <TextView
-                android:textColor="?text_view_text_color_white"
-                android:id="@+id/nav_header_mobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"/>
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/nav_header_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="mobile number" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login_logout"
-        android:layout_width="wrap_content"
-        android:text="Logout"
-        android:textAllCaps="false"
-        android:textColor="?white"
-        android:insetBottom="0dp"
-        android:insetTop="8dp"
-        android:layout_gravity="end|bottom"
-        android:layout_marginEnd="4dp"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:text="Logout"
+        android:textAllCaps="false" />
+
+    <ImageButton
+        android:id="@+id/change_theme"
+        style="@style/Widget.AppCompat.Light.ActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="8dp"
+        android:rotation="45"
+        android:src="@drawable/ic_brightness_2_black_24dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="?divider_color" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

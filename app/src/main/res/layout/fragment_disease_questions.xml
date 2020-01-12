@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorPrimaryDark"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".fragments.disease.DiseaseQuestionsFragment">
@@ -16,7 +15,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="?colorPrimaryDark"
+            app:contentScrim="?card_background_color"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <TextView
@@ -24,8 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_horizontal_margin"
-                android:text="@string/hello_blank_fragment"
-                android:textColor="?white" />
+                android:text="@string/hello_blank_fragment" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

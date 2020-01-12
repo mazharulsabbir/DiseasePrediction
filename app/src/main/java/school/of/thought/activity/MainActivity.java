@@ -1,15 +1,19 @@
 package school.of.thought.activity;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.Menu;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -47,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isDarkTheme;
     private VideoView videoView;
-    private Switch checkTheme;
 
+    private View background;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
@@ -56,6 +60,45 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initCurrentTheme();
         setContentView(R.layout.activity_main);
+
+        if (getIntent().getBooleanExtra("theme_changed", false)) {
+
+            background = findViewById(R.id.drawer_layout);
+
+            final ViewTreeObserver viewTreeObserver = background.getViewTreeObserver();
+
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                    @SuppressLint("NewApi")
+                    @Override
+                    public void onGlobalLayout() {
+//                        int cx = background.getRight() - getDips(100);
+//                        int cy = background.getBottom() - getDips(44);//44 dips for 16dp margin
+
+                        int cx = background.getRight() / 2;
+                        int cy = background.getBottom() / 2;
+
+                        float finalRadius = Math.max(background.getWidth(), background.getHeight());
+
+                        @SuppressLint({"NewApi", "LocalSuppress"})
+                        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
+                                background,
+                                cx,
+                                cy,
+                                0,
+                                finalRadius);
+
+                        circularReveal.setDuration(300);
+                        background.setVisibility(View.VISIBLE);
+                        circularReveal.start();
+
+                        background.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+
+                });
+            }
+        }
 
         initNavigationDrawer();
 
@@ -94,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
         TextView name = navHeaderView.findViewById(R.id.nav_header_name);
         TextView mobile = navHeaderView.findViewById(R.id.nav_header_mobile);
         MaterialButton loginLogout = navHeaderView.findViewById(R.id.login_logout);
+        ImageButton changeThemeButton = navHeaderView.findViewById(R.id.change_theme);
+
+        changeThemeButton.setOnClickListener(v -> changeTheme());
 
         if (user != null) {
             if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
@@ -117,28 +163,8 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        Menu menu_nav = nav.getMenu();
-        MenuItem menuItem = menu_nav.findItem(R.id.app_bar_switch_theme);
-        checkTheme = menuItem.getActionView().findViewById(R.id.switch_theme);
-
-        if (isDarkTheme) checkTheme.setChecked(false);
-        else checkTheme.setChecked(true);
-
-        //add listener
-        checkTheme.setOnCheckedChangeListener((buttonView, isChecked) ->
-                changeTheme()
-        );
-
         nav.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
-
-                case R.id.app_bar_switch_theme:
-                    if (checkTheme.isChecked())
-                        checkTheme.setChecked(false);
-                    else checkTheme.setChecked(true);
-
-                    changeTheme();
-                    break;
 
                 case R.id.disease_list:
                     openFragment(new DiseaseFragment());
@@ -260,7 +286,17 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        initCurrentTheme();
+        getIntent().putExtra("theme_changed", true);
+        getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        recreate();
+    }
+
+    private int getDips(int dps) {
+        Resources r = getResources();
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dps,
+                r.getDisplayMetrics());//44 dps for 16dp margin
     }
 
     @Override

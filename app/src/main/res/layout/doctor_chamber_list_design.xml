@@ -2,7 +2,6 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="?colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -21,23 +20,21 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="3"
-                android:background="@color/white" />
+                android:background="?divider_color" />
 
             <TextView
-                style="@style/viewParent.headerText.NoMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:text="Chamber details"
                 android:textAlignment="center"
-                android:textColor="@color/white"
                 android:textSize="12sp" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="3"
-                android:background="@color/white" />
+                android:background="?divider_color" />
 
         </LinearLayout>
 
@@ -49,12 +46,14 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputChamberName"
-                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/loginViewsMargin">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextChamberName"
-                    style="@style/modifiedEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="Chamber Name"
                     android:inputType="textPersonName"
                     android:maxLines="1" />
@@ -62,35 +61,41 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputDistrict"
-                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/loginViewsMargin">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextDistrict"
-                    style="@style/modifiedEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="Designation"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputSpecificPlaceName"
-                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/loginViewsMargin">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTexttSpecificPlaceName"
-                    style="@style/modifiedEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="Specific Place Name" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputRoomNumber"
-                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/loginViewsMargin">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextRoomNumber"
-                    style="@style/modifiedEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="RoomNumber"
                     android:inputType="phone"
                     android:maxLines="1" />
@@ -98,17 +103,18 @@
 
             <TextView
                 android:id="@+id/another_chamber"
-                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:text="Have an another chamber?"
                 android:textAlignment="center"
-                android:textColor="@color/themeColor"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
             <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:id="@+id/cirRegisterButton"
-                style="@style/loginButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:text="Register"
