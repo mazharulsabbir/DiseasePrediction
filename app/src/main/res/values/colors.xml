@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--colors for day/light theme-->
-    <color name="colorPrimary">#0d47a1</color>
-    <color name="colorPrimaryDark">#002171</color>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#706A6A</color>
 
     <color name="navigation_drawer_background">#fff</color>
+    <color name="navigation_drawer_item_text">#000000</color>
+
+    <color name="icon_color">#000000</color>
+
+    <color name="background_color">#ffffff</color>
 
     <color name="heading_text_color">#000000</color>
-    <color name="divider_color">#000000</color>
+    <color name="divider_color">#4D000000</color>
     <color name="card_background_color">#fff</color>
 </resources>
 

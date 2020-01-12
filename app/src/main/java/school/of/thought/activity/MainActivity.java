@@ -4,10 +4,13 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -58,7 +61,44 @@ public class MainActivity extends AppCompatActivity {
         initCurrentTheme();
         setContentView(R.layout.activity_main);
 
-        Logger.getLogger(TAG).warning("onCreate()");
+        if (getIntent().getBooleanExtra("theme_changed", false)) {
+
+            background = findViewById(R.id.drawer_layout);
+
+            final ViewTreeObserver viewTreeObserver = background.getViewTreeObserver();
+
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                    @SuppressLint("NewApi")
+                    @Override
+                    public void onGlobalLayout() {
+//                        int cx = background.getRight() - getDips(100);
+//                        int cy = background.getBottom() - getDips(44);//44 dips for 16dp margin
+
+                        int cx = background.getRight() / 2;
+                        int cy = background.getBottom() / 2;
+
+                        float finalRadius = Math.max(background.getWidth(), background.getHeight());
+
+                        @SuppressLint({"NewApi", "LocalSuppress"})
+                        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
+                                background,
+                                cx,
+                                cy,
+                                0,
+                                finalRadius);
+
+                        circularReveal.setDuration(300);
+                        background.setVisibility(View.VISIBLE);
+                        circularReveal.start();
+
+                        background.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+
+                });
+            }
+        }
 
         initNavigationDrawer();
 
@@ -246,66 +286,17 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        circularRevealAnimation();
+        getIntent().putExtra("theme_changed", true);
+        getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        recreate();
     }
 
-    private void circularRevealAnimation() {
-        try {
-            background = findViewById(R.id.drawer_layout);
-
-//            View view = findViewById(R.id.nav_view);
-//
-//            if (isDarkTheme) {
-//                view.setBackgroundColor(Color.parseColor("#2d404f"));
-//                getWindow().getDecorView().setBackgroundColor(Color.parseColor("#2d404f"));
-//            } else {
-//                view.setBackgroundColor(Color.parseColor("#ffffff"));
-//                getWindow().getDecorView().setBackgroundColor(Color.parseColor("#ffffff"));
-//            }
-
-            int cx = background.getRight() - 280;
-            int cy = background.getTop() - 200;
-
-            float finalRadius = Math.max(background.getWidth(), background.getHeight());
-
-            @SuppressLint({"NewApi", "LocalSuppress"})
-            Animator circularReveal = ViewAnimationUtils.createCircularReveal(
-                    background,
-                    cx,
-                    cy,
-                    0,
-                    finalRadius);
-
-            circularReveal.setDuration(600);
-            background.setVisibility(View.VISIBLE);
-            circularReveal.start();
-
-            circularReveal.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    initCurrentTheme();
-                    circularReveal.cancel();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-        } catch (Exception e) {
-            initCurrentTheme();
-            e.printStackTrace();
-        }
+    private int getDips(int dps) {
+        Resources r = getResources();
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dps,
+                r.getDisplayMetrics());//44 dps for 16dp margin
     }
 
     @Override

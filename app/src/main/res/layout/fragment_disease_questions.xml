@@ -15,7 +15,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="?colorPrimary"
+            app:contentScrim="?card_background_color"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <TextView
@@ -23,8 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_horizontal_margin"
-                android:text="@string/hello_blank_fragment"
-                android:textColor="#fff" />
+                android:text="@string/hello_blank_fragment" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
