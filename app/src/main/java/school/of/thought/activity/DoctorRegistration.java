@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,6 +77,7 @@ public class DoctorRegistration extends AppCompatActivity {
         });
 
         register_button.setOnClickListener(v -> {
+            register_button.startAnimation();
             doctorRegistration();
         });
 
@@ -121,7 +124,7 @@ public class DoctorRegistration extends AppCompatActivity {
         });
     }
 
-    private void initViews(){
+    private void initViews() {
         //User info
         name = findViewById(R.id.textInputName);
         designation = findViewById(R.id.textInputDesignation);
@@ -170,24 +173,106 @@ public class DoctorRegistration extends AppCompatActivity {
 
 
     private void doctorRegistration() {
-        DoctorChamberListModel doctorChamberListModel = new DoctorChamberListModel(
-                String.valueOf(chamber_name.getEditText().getText()),
-                String.valueOf(district.getEditText().getText()),
-                String.valueOf(specific_place.getEditText().getText()),
-                String.valueOf(room_number.getEditText().getText())
-        );
-        chamber_list.add(doctorChamberListModel);
-        DoctorRegistrationModel doctorRegistrationModel = new DoctorRegistrationModel(
 
-                String.valueOf(name.getEditText().getText()),
-                String.valueOf(designation.getEditText().getText()),
-                String.valueOf(special_area.getEditText().getText()),
-                String.valueOf(email.getEditText().getText()),
-                String.valueOf(mobile.getEditText().getText()),
-                String.valueOf(pass.getEditText().getText()),
-                imageLink,
-                chamber_list);
-        mDatabase.child("doctors").child(userId).setValue(doctorRegistrationModel);
+        String cName, cDistrict, cSpecificPlace, cRoomNumber;
+
+        cName = String.valueOf(chamber_name.getEditText().getText());
+        cDistrict = String.valueOf(district.getEditText().getText());
+        cSpecificPlace = String.valueOf(specific_place.getEditText().getText());
+        cRoomNumber = String.valueOf(room_number.getEditText().getText());
+
+        String dName, dDesignation, dSpecialArea, dEmail, dMobile;
+
+        dName = name.getEditText().getText().toString();
+        dDesignation = String.valueOf(designation.getEditText().getText());
+        dSpecialArea = String.valueOf(special_area.getEditText().getText());
+        dEmail = String.valueOf(email.getEditText().getText());
+        dMobile = String.valueOf(mobile.getEditText().getText());
+
+        if (validateData(cName, cDistrict, cSpecificPlace, cRoomNumber, dName, dDesignation, dSpecialArea, dEmail, dMobile)) {
+            DoctorChamberListModel doctorChamberListModel = new DoctorChamberListModel(
+                    cName,
+                    cDistrict,
+                    cSpecificPlace,
+                    cRoomNumber
+            );
+            chamber_list.add(doctorChamberListModel);
+
+            DoctorRegistrationModel doctorRegistrationModel = new DoctorRegistrationModel(
+                    dName,
+                    dDesignation,
+                    dSpecialArea,
+                    dEmail,
+                    dMobile,
+                    imageLink,
+                    chamber_list);
+
+            mDatabase.child("doctors").child(userId).setValue(doctorRegistrationModel)
+                    .addOnCompleteListener(task -> {
+                        register_button.revertAnimation();
+
+                        if (task.isSuccessful()) {
+                            Toast.makeText(this, "Added!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+        } else register_button.revertAnimation();
+
+
+    }
+
+    private boolean validateData(String cName, String cDistrict, String cSpecificPlace, String cRoomNumber,
+                                 String dName, String dDesignation, String dSpecialArea, String dEmail, String dMobile) {
+
+        boolean validity = true;
+
+        /*chamber info*/
+        if (TextUtils.isEmpty(cName)) {
+            validity = setError(chamber_name);
+        } else chamber_name.setErrorEnabled(false);
+
+        if (TextUtils.isEmpty(cDistrict)) {
+            validity = setError(district);
+        } else district.setErrorEnabled(false);
+
+        if (TextUtils.isEmpty(cSpecificPlace)) {
+            validity = setError(specific_place);
+        } else specific_place.setErrorEnabled(false);
+
+        if (TextUtils.isEmpty(cRoomNumber)) {
+            validity = setError(room_number);
+        } else room_number.setErrorEnabled(false);
+
+        /*doctor info*/
+
+        if (TextUtils.isEmpty(dName)) {
+            validity = setError(name);
+        } else name.setErrorEnabled(false);
+
+        if (TextUtils.isEmpty(dEmail)) {
+            validity = setError(email);
+        } else email.setErrorEnabled(false);
+
+        if (TextUtils.isEmpty(dMobile)) {
+            validity = setError(mobile);
+        } else mobile.setErrorEnabled(false);
+
+
+        return validity;
+    }
+
+    private boolean setError(TextInputLayout inputLayout, String errorMsg) {
+        if (inputLayout.getEditText() != null)
+            inputLayout.getEditText().setError(errorMsg);
+
+        return false;
+    }
+
+    private boolean setError(TextInputLayout inputLayout) {
+        if (inputLayout.getEditText() != null)
+            inputLayout.getEditText().setError("Can't be empty");
+
+        return false;
     }
 
     @Override
