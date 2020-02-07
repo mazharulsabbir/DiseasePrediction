@@ -13,12 +13,11 @@
         android:layout_height="wrap_content">
 
         <include layout="@layout/collapsing_toolbar_layout" />
-
         <FrameLayout
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:listitem="@layout/item_disease" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

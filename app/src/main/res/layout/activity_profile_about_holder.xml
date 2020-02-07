@@ -7,20 +7,4 @@
     android:layout_height="match_parent"
     tools:context=".activity.ProfileAboutHolderActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageButton
-            style="@style/Widget.AppCompat.Light.ActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="100dp"
-            android:rotation="45"
-            android:src="@drawable/ic_brightness_2_black_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>
