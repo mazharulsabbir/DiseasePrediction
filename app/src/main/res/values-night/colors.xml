@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--colors for dark/night theme-->
-    <color name="colorPrimary">#c3c3c3</color>
+    <color name="colorPrimary">#fff</color>
     <color name="colorPrimaryDark">#121212</color>
     <color name="colorAccent">#272727</color>
 
@@ -10,9 +10,12 @@
     <color name="navigation_drawer_background">#000000</color>
     <color name="navigation_drawer_item_text">#c3c3c3</color>
 
-    <color name="icon_color">#c3c3c3</color>
+    <color name="icon_color">#fff</color>
+
+    <color name="text_view_background">#121212</color>
+    <color name="appbar_color">#121212</color>
 
     <color name="heading_text_color">#cccccc</color>
-    <color name="divider_color">#4D152A38</color>
-    <color name="card_background_color">#000000</color>
+    <color name="divider_color">#4DCCCCCC</color>
+    <color name="card_background_color">#1F1F1F</color>
 </resources>

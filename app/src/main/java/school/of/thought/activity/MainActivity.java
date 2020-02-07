@@ -61,44 +61,44 @@ public class MainActivity extends AppCompatActivity {
         initCurrentTheme();
         setContentView(R.layout.activity_main);
 
-        if (getIntent().getBooleanExtra("theme_changed", false)) {
-
-            background = findViewById(R.id.drawer_layout);
-
-            final ViewTreeObserver viewTreeObserver = background.getViewTreeObserver();
-
-            if (viewTreeObserver.isAlive()) {
-                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-                    @SuppressLint("NewApi")
-                    @Override
-                    public void onGlobalLayout() {
-//                        int cx = background.getRight() - getDips(100);
-//                        int cy = background.getBottom() - getDips(44);//44 dips for 16dp margin
-
-                        int cx = background.getRight() / 2;
-                        int cy = background.getBottom() / 2;
-
-                        float finalRadius = Math.max(background.getWidth(), background.getHeight());
-
-                        @SuppressLint({"NewApi", "LocalSuppress"})
-                        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
-                                background,
-                                cx,
-                                cy,
-                                0,
-                                finalRadius);
-
-                        circularReveal.setDuration(300);
-                        background.setVisibility(View.VISIBLE);
-                        circularReveal.start();
-
-                        background.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-
-                });
-            }
-        }
+//        if (getIntent().getBooleanExtra("theme_changed", false)) {
+//
+//            background = findViewById(R.id.drawer_layout);
+//
+//            final ViewTreeObserver viewTreeObserver = background.getViewTreeObserver();
+//
+//            if (viewTreeObserver.isAlive()) {
+//                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//
+//                    @SuppressLint("NewApi")
+//                    @Override
+//                    public void onGlobalLayout() {
+////                        int cx = background.getRight() - getDips(100);
+////                        int cy = background.getBottom() - getDips(44);//44 dips for 16dp margin
+//
+//                        int cx = background.getRight() / 2;
+//                        int cy = background.getBottom() / 2;
+//
+//                        float finalRadius = Math.max(background.getWidth(), background.getHeight());
+//
+//                        @SuppressLint({"NewApi", "LocalSuppress"})
+//                        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
+//                                background,
+//                                cx,
+//                                cy,
+//                                0,
+//                                finalRadius);
+//
+//                        circularReveal.setDuration(300);
+//                        background.setVisibility(View.VISIBLE);
+//                        circularReveal.start();
+//
+//                        background.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                    }
+//
+//                });
+//            }
+//        }
 
         initNavigationDrawer();
 
@@ -288,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
         getIntent().putExtra("theme_changed", true);
         getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
         recreate();
     }
 

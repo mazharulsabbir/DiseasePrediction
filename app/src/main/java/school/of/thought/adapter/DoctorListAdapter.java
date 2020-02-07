@@ -21,6 +21,7 @@ import java.util.List;
 
 import school.of.thought.R;
 import school.of.thought.model.DoctorRegistrationModel;
+import school.of.thought.utils.Utils;
 
 public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.DoctorHolder> {
 
@@ -56,7 +57,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
         private TextView name;
         private TextView designation, chamber;
         private ChipGroup area;
-        private MaterialButton appointment, details;
+        private MaterialButton appointment;
 
         private DoctorHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,7 +67,6 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             area = itemView.findViewById(R.id.special_area_chips);
             chamber = itemView.findViewById(R.id.chambers);
             appointment = itemView.findViewById(R.id.doctor_appointment);
-            details = itemView.findViewById(R.id.doctor_details);
 
             itemView.setOnClickListener(view -> {
 
@@ -74,11 +74,6 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
 
             //appointment button click
             appointment.setOnClickListener(v -> {
-
-            });
-
-            //cardview clik
-            details.setOnClickListener(v -> {
 
             });
         }
@@ -92,8 +87,13 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             area.addView(newArea);
 
             Glide.with(context).load(doctor.getImage())
-                    .error(R.drawable.doctoricon)
-                    .circleCrop().into(image);
+                    .load(Utils.COMMON_USER_AVATAR_URL)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder).into(image);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                image.setClipToOutline(true);
+            }
 
             StringBuilder chambers = new StringBuilder();
             if (!doctor.chamber_list.isEmpty())
