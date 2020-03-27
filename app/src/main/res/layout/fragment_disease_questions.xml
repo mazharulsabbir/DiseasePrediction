@@ -37,9 +37,7 @@
         android:clipToPadding="false"
         android:paddingBottom="100dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_disease_ques_type_radio_button" />
-
+        tools:itemCount="1" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/submit_answer"

@@ -8,25 +8,25 @@
     <TextView
         android:id="@+id/text_view_1"
         style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="@dimen/text_view_height"
-        android:layout_height="@dimen/text_view_height"
-        android:background="@drawable/shape_round"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
+        android:text="1."
         android:textColor="?heading_text_color"
-        android:text="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/text_view_ques" />
 
     <TextView
         android:id="@+id/text_view_ques"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textStyle="bold"
+        android:layout_marginStart="8dp"
+        android:hint="Lorem ipsum dolor sit amet "
+        android:textColor="?heading_text_color"
         app:layout_constraintBottom_toBottomOf="@+id/text_view_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/text_view_1"
-        app:layout_constraintTop_toTopOf="@+id/text_view_1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

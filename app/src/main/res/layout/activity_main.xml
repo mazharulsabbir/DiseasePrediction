@@ -12,12 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/collapsing_toolbar_layout" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="8dp">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:menu="@menu/menu_main_activity"
+                    app:title="@string/app_name" />
+            </com.google.android.material.appbar.AppBarLayout>
+        </androidx.cardview.widget.CardView>
+
         <FrameLayout
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:listitem="@layout/item_disease" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -38,8 +58,8 @@
         android:layout_gravity="start"
         android:background="@color/navigation_drawer_background"
         android:fitsSystemWindows="true"
-        app:itemTextColor="@color/navigation_drawer_item_text"
         app:headerLayout="@layout/navigation_header"
+        app:itemTextColor="@color/navigation_drawer_item_text"
         app:menu="@menu/main" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

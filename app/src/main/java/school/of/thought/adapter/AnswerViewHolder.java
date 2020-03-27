@@ -1,5 +1,6 @@
 package school.of.thought.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -28,7 +30,7 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
     private TextView quesNo;
     private TextView ques;
     private Context context;
-    private TextInputLayout editTextAns;
+    private EditText editTextAns;
     private RadioGroup radioGroupAns;
     private RadioButton yes, no;
     private Spinner spinnerAns;
@@ -61,9 +63,10 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    @SuppressLint("SetTextI18n")
     public void bind(DiseaseQuestionAnswer diseaseQuestionAnswer) {
         this.diseaseQuestionAnswer = diseaseQuestionAnswer;
-        quesNo.setText(String.valueOf(getAdapterPosition() + 1));
+        quesNo.setText(String.valueOf(getAdapterPosition() + 1)+".");
 
         ques.setText(diseaseQuestionAnswer.getQuestion().getQuestion());
 
@@ -139,22 +142,22 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
                 break;
             case Utils.TYPE_TEXT:
                 if (diseaseQuestionAnswer.isAnswered()) {
-                    editTextAns.getEditText().setText(diseaseQuestionAnswer.getAnswer());
-                } else editTextAns.getEditText().setText("");
+                    editTextAns.setText(diseaseQuestionAnswer.getAnswer());
+                } else editTextAns.setText("");
 
-                editTextAns.getEditText().setOnEditorActionListener((textView, i, keyEvent) -> {
+                editTextAns.setOnEditorActionListener((textView, i, keyEvent) -> {
 
                     if (i == EditorInfo.IME_ACTION_NEXT) {
                         hideKeyboardFrom(context, editTextAns);
-                        clickListener(editTextAns.getEditText().getText().toString(), Utils.TYPE_TEXT);
+                        clickListener(editTextAns.getText().toString(), Utils.TYPE_TEXT);
                         return true;
                     }
                     return false;
                 });
 
-                editTextAns.getEditText().setOnFocusChangeListener((view, b) -> {
+                editTextAns.setOnFocusChangeListener((view, b) -> {
                     if (!b)
-                        clickListener(editTextAns.getEditText().getText().toString(), Utils.TYPE_TEXT);
+                        clickListener(editTextAns.getText().toString(), Utils.TYPE_TEXT);
                 });
                 break;
         }

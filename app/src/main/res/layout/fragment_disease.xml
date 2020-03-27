@@ -7,4 +7,5 @@
     tools:listitem="@layout/item_disease"
     android:paddingBottom="100dp"
     android:clipToPadding="false"
+    android:paddingTop="70dp"
     tools:context=".fragments.disease.DiseaseFragment"/>

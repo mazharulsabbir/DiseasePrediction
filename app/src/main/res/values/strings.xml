@@ -21,4 +21,8 @@
     <string name="login_password_hint">Password</string>
 
     <string name="hello_blank_fragment">Text View</string>
+    
+    <string-array name="spinner_items">
+        <item>Item A</item>
+    </string-array>
 </resources>
