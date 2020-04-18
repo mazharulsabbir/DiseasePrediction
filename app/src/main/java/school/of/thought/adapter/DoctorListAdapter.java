@@ -1,6 +1,7 @@
 package school.of.thought.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.List;
 
 import school.of.thought.R;
+import school.of.thought.activity.Doctor_Appoinment;
 import school.of.thought.model.DoctorRegistrationModel;
 import school.of.thought.utils.Utils;
 
@@ -104,6 +106,11 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
                         chambers.append(", ");
                 }
             chamber.setText(chambers.toString());
+
+                appointment.setOnClickListener(v -> {
+                    Intent intent= new Intent(context, Doctor_Appoinment.class);
+                    context.startActivity(intent);
+                });
         }
     }
 }
