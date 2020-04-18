@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 
@@ -45,16 +46,15 @@ public class DiseaseListAdapter extends RecyclerView.Adapter<DiseaseListAdapter.
         holder.name.setText(disease.getName());
         holder.shortDesc.setText(disease.getDescription());
 
-        if (disease.getImage().isEmpty())
-            Glide.with(context)
-                    .load(R.drawable.ic_launcher_background)
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.error)
-                    .into(holder.image);
-        else Glide.with(context).load(disease.getImage()).into(holder.image);
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
+        Glide.with(context).load(disease.getImage()).placeholder(circularProgressDrawable).error(R.drawable.error).into(holder.image);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.image.setClipToOutline(true);
+            holder.image.setClipToOutline(true); // curve corner on image
         }
 
     }
